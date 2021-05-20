@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 function App() {
-  const name = undefined;
-  // return name || <>값이 undefined 입니다.</>;
-  return <div>{name || '리액트'}</div>
+  const name:string = "리액트";
+  const style:CSSProperties = {
+    backgroundColor: "black",
+    color: "aqua",
+    fontSize: "48px",
+    fontWeight: "bold",
+    padding: 16
+  };
+  return <div style={style}>{name}</div>
 }
 
 export default App;
