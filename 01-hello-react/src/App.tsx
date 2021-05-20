@@ -1,15 +1,9 @@
 import React from 'react';
 
 function App() {
-  let name = '리액트';
-  return (
-    <>
-      {name === '리액트' && (
-        <h1>리액트입니다.</h1>
-      )} 
-      <h2>잘 작동하니?</h2> 
-    </>
-  );
+  const name = undefined;
+  // return name || <>값이 undefined 입니다.</>;
+  return <div>{name || '리액트'}</div>
 }
 
 export default App;
