@@ -1,8 +1,8 @@
 import React from "react";
-import MyComponent from "./MyComponent";
+import SayComponent from "./SayComponent";
 
 const App: React.FC = () => {
-  return <MyComponent name="리액트">리액트</MyComponent>;
+  return <SayComponent />;
 };
 
 export default App;
