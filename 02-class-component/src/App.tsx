@@ -1,10 +1,9 @@
 import React from 'react';
-import MyComponent from './MyComponent';
+import CounterComponent from './CounterComponent';
 
 class App extends React.Component {
   render() {
-    const name = 'react';
-    return <MyComponent favoriteNumber={100}>{name}</MyComponent>;
+    return <CounterComponent />;
   }
 }
 
