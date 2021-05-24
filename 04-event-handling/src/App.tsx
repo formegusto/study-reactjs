@@ -1,8 +1,8 @@
 import React from "react";
-import EventComponent from "./EventComponent";
+import FunctionEventComponent from "./FunctionEventComponent";
 
 const App: React.FC = () => {
-  return <EventComponent />;
+  return <FunctionEventComponent />;
 };
 
 export default App;
