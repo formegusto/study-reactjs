@@ -1,46 +1,150 @@
-# Getting Started with Create React App
+# 01_Hello_React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 1. 왜 리액트인가?
 
-## Available Scripts
+- 한때 자바스크립트는 웹 브라우저에서 간단한 연산을 하거나 시각적인 효과를 주는 단순한 스크립트 언어에 불과했지만, 현재는 웹 어플리케이션에서 가장 핵심적인 역할을 한다.
+- 더 나아가 영역을 확장하여 서버사이드는 물론 모바일, 데스크톱 어플리케이션에서도 엄청나게 활약한다.
+- 슬랙(Slack), 아톰(Atom), VS Code 등 유명한 데스크톱 어플리케이션을 일렉트론(Electron)으로 개발했다. 모바일 어플리케이션도 마찬가지이다. 자바스크립트로 크로스 플랫폼 어플리케이션을 개발할 수 있는 여러 프레임워크 (Ionic, Titanium, NativeScript, React Native 등)를 사용하여 페이스북(Facebook), 디스코드(Discord), 페이팔(Paypal), 이베이(Ebay) 등 수많은 공룡급 어플리케이션과 중,소규모 어플리케이션을 개발했다.
+- 자바스크립트만으로도 규모가 큰 어플리케이션을 만들 수 있는 시대가 왔다. **대규모 어플리케이션 중 프론트엔드 사이드에서 돌아가는 어플리케이션 구조를 관리**하려면 어떻게 해야할까?
 
-In the project directory, you can run:
+  → 이런 어플리케이션을 특별한 도구 없이 순수하게 자바스크립트로만 **관리**하려면 골치아프다.
 
-### `yarn start`
+  → 지금까지 **수많은 프레임워크가 조금씩 다른 관점에서 이를 해결하려고 노력**해왔다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  ex ) Angular, Backbone.js, Derby.js, Ember.js, Ext.js, Knockback.js, Sammy.js, PureMVC, Vue.js 등
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  → 즉, **프론트엔드 사이드에서 돌아가는 어플리케이션 구조를 관리하기 위해 프론트엔드 프레임워크들이 등장**했다.
 
-### `yarn test`
+- 이 프레임워크들은 주로 MVC(Model-View-Controller) 아키텍처, MVVM(Model-View-View Model) 아키텍처 사용한다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - AngularJS의 경우는 MVW(Model-View-Whatever) 아키렉터로 어플리케이션을 구조화한다.
+  - MVC, MVVM, MVW 등과 같은 여러 구조가 지닌 공통점은 모델(Model)과 뷰(Veiw)가 있다는 점이다.
 
-### `yarn build`
+    → 모델은 어플리케이션에서 사용하는 데이터를 관리하는 영역
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    → 뷰는 사용자에게 보이는 부분
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    → 프로그램이 사용자에게서 어떤 작업(예: 버튼클릭, 텍스트 입력 등)을 받으면 컨트롤러는 모델 데이터를 조회하거나 수정하고, 변경된 사항을 뷰에 반영한다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    → 반영하는 과정에서 보통 뷰를 변형(mutate)한다.
 
-### `yarn eject`
+  - 업데이트하는 항목에 따라 어떤 부분을 찾아서 변경할지 규칙을 정하는 작업은 간단하지만, 어플리케이션 규모가 크면 상당히 복잡해지고, 제대로 관리하지 않으면 성능도 떨어질 수 있다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 페이스북 개발 팀은 이를 해결하려고 하나의 아이디어를 고안해 냈다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  > **어떤 데이터가 변할 때마다 어떤 변화를 줄지 고민하는 것이 아니라, 그냥 기존 뷰를 날려 버리고 처음부터 새로 렌더링하는 방식**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  **→ 어플리케이션 구조가 매우 간단해진다.**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  **→ 작성해야 할 코드양도 많이 줄어든다.**
 
-## Learn More
+  **→ 더 이상 어떻게 변화를 줄지 신경 쓸 필요가 없고, 그저 뷰가 어떻게 생길지 선언하며, 데이터에 변화가 있으면 기존에 있던 것은 버리고, 정해진 규칙에 따라 새로 렌더링하면 된다.**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- 하지만 위의 방식대로 웹 브라우저에 적용하면 CPU 점유율도 크게 증가할 것이다. DOM은 느리기 때문이다. 이 과정에서 메모리 사용률도 매우 증가하게 될 것이다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  → 끊김 현상 발생
+
+  → **페이스북 개발 팀이 앞서 설명한 방식으로 최대한 성능을 아끼고 편안한 사용자 경험(user experience)을 제공하면서 구현하고자 개발한 것이 바로 리액트(React)**이다.
+
+## 1. 리액트 이해
+
+- **리액트는 자바스크립트 라이브러리로 사용자 인터페이스를 만드는 데 사용**한다. 구조가 MVC, MVW 등인 프레임워크와 달리, **오직 V(View)만 신경 쓰는 라이브러리**이다.
+- 리액트 프로젝트에서 **특정 부분이 어떻게 생길지 정하는 선언체**가 있는데, 이를 **컴포넌트(Component)**라고 한다.
+
+  → **컴포넌트는 다른 프레임워크에서 사용자 인터페이스를 다룰 때 사용하는 템플릿과는 다른 개념**이다.
+
+  → 템플릿은 보통 데이터셋이 주어지면 HTML 태그 형식을 문자열로 반환하는데, 이와 달리 **컴포넌트는 좀 더 복합적인 개념**이다.
+
+  → 컴포넌트는 **재사용이 가능한 API로 수많은 기능들을 내장**하고 있으며, 컴포넌트 하나에서 해당 컴포넌트의 생김새와 작동 방식을 정의한다.
+
+- 사용자 화면에 뷰를 보여 주는 것을 렌더링이라고 한다.
+  - **리액트의 데이터 변화에 따른 최적화 된 렌더링의 비밀**을 파악하려면 **"초기 렌더링"**과 **"리렌더링"** 개념을 이해해야 한다.
+
+### 1. 초기 렌더링
+
+- 어떤 **UI 관련 프레임워크, 라이브러리를 사용하든지 간에 맨 처음 어떻게 보일지를 정하는 초기 렌더링**이 필요하다. 리액트에서는 이를 다루는 **render 함수**가 있다.
+
+  → 이 함수는 **컴포넌트가 어떻게 생겼는지 정의하는 역할**을 한다.
+
+  → 이 함수는 **html 형식의 문자열을 반환하지 않고, 뷰가 어떻게 생겼고 어떻게 작동하는지에 대한 정보를 지닌 객체를 반환**한다.
+
+- 컴포넌트 내부에는 또 다른 컴포넌트들이 들어갈 수 있다. 이때 render 함수를 실행하면 그 내부에 있는 컴포넌트들도 재귀적으로 렌더링한다.
+
+  → 이렇게 **최상위 컴포넌트의 렌더링 작업이 끝나면 지니고 있는 정보들을 사용하여 HTML 마크업(markup)을 만들고, 이를 우리가 정하는 실제 페이지의 DOM 요소 안에 주입**한다.
+
+- 컴포넌트를 실제 페이지에 렌더링할 때는 **분리된 두 가지 절차**를 따르는데, 먼저 **문자열 형태의 HTML 코드를 생성**한 후 **특정 DOM에 해당 내용을 주입하면 이벤트가 적용**된다.
+
+### 2. 조화 과정
+
+- 리액트 라이브러리에서 중요한 부분인 업데이트의 대한 이야기
+- 우선 리액트에서 뷰를 업데이트할 때는 "업데이트 과정을 거친다"라고 하기보다는 **"조화 과정(reconcilation)을 거친다"**라고 하는 것이 더 정확한 표현이다.
+
+  → **컴포넌트에서 데이터에 변화가 있을 때, 우리가 보기에는 변화에 따라 뷰가 변형되는 것처럼 보이지만, 사실은 새로운 요소로 갈아끼워지는 것**이다.
+
+- 이 작업 또한 **render 함수**가 맡아서 한다.
+
+  → render 함수는 **뷰가 어떻게 생겼고, 어떻게 작동하는지 객체를 반환**한다.
+
+  → 컴포넌트는 데이터를 업데이트 했을 때, 단순히 업데이트한 값을 수정하는 것이 아니라, **새로운 데이터를 가지고 render 함수를 또 다시 호출**한다. 그러면 그 데이터를 지닌 뷰를 생성해 낼 것이다.
+
+  → 하지만 이 때, **render 함수가 반환하는 결과를 곧바로 DOM에 반영하지 않고, 이전에 render 함수가 만들었던 컴포넌트 정보와 현재 render 함수가 만든 컴포넌트 정보를 비교**하고, **자바스크립트를 사용하여 두 가지 뷰를 최소한의 연산으로 비교**한 후, **둘의 차이를 알아내 최소한의 연산으로 DOM 트리를 업데이트**하는 것이다.
+
+  → 결국 방식 자체는 루트 노드부터 시작하여 전체 컴포넌트를 처음부터 다시 렌더링하는 것처럼 보이지만, 사실 최적의 자원을 사용하여 이를 수행하는 것이다.
+
+- 더 구체적으로 이해하기 위해서는 **Virtual DOM**을 알아야 한다.
+
+# 2. 리액트의 특징
+
+## 1. Virtual DOM
+
+- 리액트의 주요 특징 중 하나.
+
+### 1. DOM(Document Object Model) 이란?
+
+- 객체로 문서 구조를 표현하는 방법으로 XML이나 HTML로 작성한다.
+- 웹 브라우저는 DOM을 활용하여 객체에 자바스크립트와 CSS를 적용한다.
+
+> DOM은 과연 느린가?
+
+- 요즘 DOM API를 수많은 플랫폼과 웹 브라우저에서 사용하는데, 이 **DOM에는 치명적인 한 가지 문제점이 있다. 바로 동적 UI에 최적화되어 있지 않다는 것**이다. HTML은 자체적으로는 정적이다. 자바스크립트를 사용하여 이를 동적으로 만들 수 있다.
+- 이 요새의 개수가 몇 백 개, 몇 천 개 단위로 많다면 이야기는 좀 달라진다. 이렇게 규모가 큰 웹 어플리케이션에서 DOM에 직접 접근하여 변화를 주다 보면 성능 이슈가 조금씩 발생하기 시작한다.
+- 일부 문서에서는 이를 두고 **"요즘 자바스크립트 엔진은 매우 빠른 반면, DOM은 느리다"**라고 하는데, 정확한 말은 아니다.
+
+  → **DOM 자체는 빠르다.**
+
+  → DOM 자체를 읽고 쓸 때의 성능은 자바스크립트 객체를 처리할 때의 성능과 비교하여 다르지 않다.
+
+  → **단, 웹 브라우저 단에서 DOM에 변화가 일어나면 웹 브라우저가 CSS를 다시 연산하고, 레이아웃을 구성하고, 페이지를 리페인트한다. 이 과정에서 시간이 허비되는 것**이다.
+
+> 해결법
+
+- HTML 마크업을 시각적인 형태로 변환하는 것은 웹 브라우저가 하는 주 역할이기 때문에, 이를 처리할 때 컴퓨터 자원을 사용하는 것은 어쩔 수 없다. DOM을 조작할 때마다 엔진이 웹 페이지를 새로 그리기 때문에 업데이트가 너무 잦으면 성능이 저하될 수 있다.
+- 이런 문제는 **DOM을 최소한으로 조작하여 작업을 처리하는 방식으로 개선**할 수 있다. **리액트는 Virtual DOM 방식을 사용하여 DOM 업데이트를 추상화함으로써 DOM 처리 횟수를 최소화하고, 효율적으로 진행**한다.
+
+### 2. Virtual DOM
+
+- VirtualDOM을 사용하면 실제 DOM에 접근하여 조족하는 대신, **이를 추상화한 자바스크립트 객체를 구성하여 사용**한다. 실제 DOM의 가벼운 사본과 비슷하다.
+- 리액트에서 데이터가 변하여 웹 브라우저에 실제 DOM을 업데이트할 때는 다음과 같은 세 가지 절차를 밟는다.
+  1. **데이터를 업데이트하면 전체 UI를 Virtual DOM에 리렌더링한다.**
+  2. **이전 Virtual DOM에 있던 내용과 현재 내용을 비교한다.**
+  3. **바뀐 부분만 실제 DOM에 적용한다.**
+- 위에서 말한 **render 함수에서 생성하는 DOM이 바로 VirtualDOM**이다.
+
+> 오해
+
+- **Virtual DOM을 사용한다고 해서 사용하지 않을 때와 비교하여 무조건 빠른 것은 아니다.**
+
+  > 우리는 다음 문제를 해결하려고 리액트를 만들었습니다.
+
+  > **지속적으로 데이터가 변화하는 대규모 어플리케이션 구축하기**
+
+- 이렇듯 결국에는 적절한 곳에 사용해야 리액트가 지닌 진가를 비로소 발휘할 수 있다. 리액트를 사용하지 않아도 코드 최적화를 열심히 하면 DOM 작업이 느려지는 문제를 개선할 수 있고, 또 작업이 매우 간단할 때는 오히려 리액트를 사용하지 않는 편이 더 나은 성능을 보이기도 한다.
+- **리액트와 Virtual DOM이 언제나 제공할 수 있는 것은 바로 업데이트 처리 간결성**이다. **UI를 업데이트하는 과정에서 생기는 복잡함을 모두 해소하고, 더욱 쉽게 업데이트에 접근**할 수 있다.
+
+## 2. 기타 특징
+
+- 일부 웹 프레임워크가 MVC 또는 MVW 등의 구조를 지향하는 것과 달리 리액트는 오직 뷰만 담당한다. 다시 한 번 강조하면 **리액트는 프레임워크가 아니라, 라이브러리**이다.
+- 다른 웹 프레임워크가 Ajax, 데이터 모델링, 라우팅 등과 같은 기능을 내장하고 있는 반면, 리액트는 정말 뷰만 신경쓰는 라이브러리이므로 **기타 기능은 직접 구현하여 사용**해야 한다.
+- 리액트에서는 주로 다른 개발자들이 만든 라이브러리를 이용해서 해결한다.
+- 해당 분야에서 마음에 드는 라이브러리를 사용하면 되니까, **자신의 취향대로 스택을 설정할 수 있다는 장점이 있지만, 여러 라이브러리를 접해야 한다는 단점**도 있다.
+- 또 **리액트는 다른 웹 프레임워크나 라이브러리와 혼용할 수도 있다**. 예를 들어 Backbon.js, Angular.js 등의 프레임워크와 함께 언제든지 사용할 수 있다.
