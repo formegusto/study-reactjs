@@ -1,150 +1,559 @@
-# 01_Hello_React
+# JSX
+
+# 1. 코드 이해하기
+
+```jsx
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```jsx
+import React from 'react';
+```
+
+- 리액트 프로젝트를 만들 때, node_modules 라는 디렉터리도 함께 생성되는데, 프로젝트 생성 과정에서 **node_modules 디렉터리에 react 모듈이 설치**된다. 그리고 이렇게 **import 구문을 통해 리액트를 불러와서 사용**할 수 있다.
+- 이렇게 **모듈을 불러와서 사용하는 것**은 원래 브라우저에는 없던 기능이다. **브라우저가 아닌 환경에서 자바스크립트를 실행할 수 있게 해주는 환경인 Node.js에서 지원하는 기능**이다. 참고로 Node.js에서는 import가 아닌, require라는 구문으로 패키지를 불러올 수 있다.
+- **이러한 기능을 브라우저에서도 사용하기 위해 번들러(bundler)를 사용**한다. 번들(bundle)은 묶는다는 뜻이다. 즉, 파일을 묶듯이 연결하는 것이다.
+- 대표적인 번들러로 웹팩, Parcel, browserify라는 도구들이 있으며, 각 도구마다 특성이 다르다.
+- **리액트 프로젝트에서는 주로 웹팩을 사용하는 추세**이다.
+- 번들러 도구를 사용하면 import로 모듈을 불러왔을 때 불러온 모듈을 모두 합쳐서 하나의 파일을 생성해 준다. 또 최적화 과정에서 여러 개의 파일로 분리 될 수도 있다.
+
+```jsx
+import logo from './logo.svg';
+import './App.css';
+```
+
+- **웹팩을 사용하면 SVG 파일과 CSS 파일도 불러와서 사용할 수 있다. 이렇게 파일들을 불러오는 것은 웹팩의 로더(loader)라는 기능이 담당**한다.
+
+  → css-loader는 CSS 파일을 불러올 수 있게 해준다.
+
+  → file-loader는 웹 폰트나 미디어 파일 등을 불러올 수 있게 해준다.
+
+  → babel-loader는 자바스크립트 파일들을 불러오면서 최신 자바스크립트 문법으로 작성된 코드를 바벨이라는 도구를 사용하여 ES5 문법으로 변환해준다.
+
+- 웹팩의 로더는 원래 직접 설치하고, 설정해야 하지만 리액트 프로젝트를 만들 때 사용했던 create-react-app이 번거로운 작업을 모두 대신해 주기 때문에 우리는 별도의 설정을 할 필요가 없다.
+
+```jsx
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+```
+
+- **이 코드는 App이라는 컴포넌트를 만들어 준다.** function 키워드를 사용하여 컴포넌트를 만들었는데, 이러한 컴포넌트를 함수형 컴포넌트라고 부른다.
+- 프로젝트에서 컴포넌트를 렌더링하면(렌더링이란 '보여 준다'는 것을 의미한다) 함수에서 반환하고 있는 내용을 나타낸다. 함수에서 반환하는 내용을 보면 마치 HTML을 작성한 것 같은데, **이 코드는 HTML도 아니고 문자열 템플릿도 아닌 JSX**이다.
+
+# 2. JSX란?
+
+- **JSX는 자바스크립트의 확장 문법이며 XML과 매우 비슷하게 생겼다.** 이런 형식으로 작성한 코드는 브라우저에서 실행되기 전에 **코드가 번들링되는 과정에서 바벨을 사용하여 일반 자바스크립트 형태의 코드로 변환**된다.
+
+```jsx
+function App() {
+  return (
+    <div>
+      Hello <b>react</b>
+    </div>
+  );
+}
+```
+
+- 이렇게 작성된 코드는 다음과 같이 변환된다.
+
+```jsx
+function App() {
+	return React.createElement("div", null, "Hello ", React.createElement("b", null, "react");
+}
+```
 
-# 1. 왜 리액트인가?
+- JSX를 사용하면 매우 편하게 UI를 렌더링할 수 있다.
 
-- 한때 자바스크립트는 웹 브라우저에서 간단한 연산을 하거나 시각적인 효과를 주는 단순한 스크립트 언어에 불과했지만, 현재는 웹 어플리케이션에서 가장 핵심적인 역할을 한다.
-- 더 나아가 영역을 확장하여 서버사이드는 물론 모바일, 데스크톱 어플리케이션에서도 엄청나게 활약한다.
-- 슬랙(Slack), 아톰(Atom), VS Code 등 유명한 데스크톱 어플리케이션을 일렉트론(Electron)으로 개발했다. 모바일 어플리케이션도 마찬가지이다. 자바스크립트로 크로스 플랫폼 어플리케이션을 개발할 수 있는 여러 프레임워크 (Ionic, Titanium, NativeScript, React Native 등)를 사용하여 페이스북(Facebook), 디스코드(Discord), 페이팔(Paypal), 이베이(Ebay) 등 수많은 공룡급 어플리케이션과 중,소규모 어플리케이션을 개발했다.
-- 자바스크립트만으로도 규모가 큰 어플리케이션을 만들 수 있는 시대가 왔다. **대규모 어플리케이션 중 프론트엔드 사이드에서 돌아가는 어플리케이션 구조를 관리**하려면 어떻게 해야할까?
+> JSX도 자바스크립트 문법인가?
 
-  → 이런 어플리케이션을 특별한 도구 없이 순수하게 자바스크립트로만 **관리**하려면 골치아프다.
+- **JSX는 리액트로 프로젝트를 개발할 때 사용되므로, 공식적인 자바스크립트 문법이 아니다.** 바벨에서는 여러 문법을 지원할 수 있도록 preset 및 plugin을 설정한다.
+- 바벨을 통해 개발자들이 임의로 만든 문법, 혹은 차기 자바스크립트의 문법들을 사용할 수 있다.
 
-  → 지금까지 **수많은 프레임워크가 조금씩 다른 관점에서 이를 해결하려고 노력**해왔다.
+# 3. JSX의 장점
 
-  ex ) Angular, Backbone.js, Derby.js, Ember.js, Ext.js, Knockback.js, Sammy.js, PureMVC, Vue.js 등
+## 1. 보기 쉽고 익숙하다.
 
-  → 즉, **프론트엔드 사이드에서 돌아가는 어플리케이션 구조를 관리하기 위해 프론트엔드 프레임워크들이 등장**했다.
+- 결국 HTML 코드를 작성하는 것과 비슷하기 때문에 JSX를 사용하는 편이 가독성이 높고 작성하기도 쉽다.
 
-- 이 프레임워크들은 주로 MVC(Model-View-Controller) 아키텍처, MVVM(Model-View-View Model) 아키텍처 사용한다.
+## 2. 더욱 높은 활용도
 
-  - AngularJS의 경우는 MVW(Model-View-Whatever) 아키렉터로 어플리케이션을 구조화한다.
-  - MVC, MVVM, MVW 등과 같은 여러 구조가 지닌 공통점은 모델(Model)과 뷰(Veiw)가 있다는 점이다.
+- JSX에서는 우리가 알고 있는 div나 span 같은 HTML 태그를 사용할 수 있을 뿐만 아니라, 앞으로 만들 컴포넌트도 JSX 안에서 작성할 수 있다.
+- **App.tsx 에서 App 컴포넌트가 만들어졌다. src/index.ts 파일에서 이 App 컴포넌트를 마치 HTML 태그 쓰듯이 그냥 작성**한다.
 
-    → 모델은 어플리케이션에서 사용하는 데이터를 관리하는 영역
+  ```jsx
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import './index.css';
+  import App from './App';
+  import reportWebVitals from './reportWebVitals';
 
-    → 뷰는 사용자에게 보이는 부분
+  ReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
 
-    → 프로그램이 사용자에게서 어떤 작업(예: 버튼클릭, 텍스트 입력 등)을 받으면 컨트롤러는 모델 데이터를 조회하거나 수정하고, 변경된 사항을 뷰에 반영한다.
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals();
+  ```
 
-    → 반영하는 과정에서 보통 뷰를 변형(mutate)한다.
+  → **ReactDOM.render는 컴포넌트를 페이지에 렌더링하는 역할을 한다.** react-dom 모듈을 불러와 사용할 수 있다. 이 함수의 첫 번째 파라미터에는 페이지에 렌더링할 내용을 JSX 형태로 작성하고, 두 번째 파라미터에는 해당 JSX를 렌더링 할 document 내부 요소를 설정한다.
 
-  - 업데이트하는 항목에 따라 어떤 부분을 찾아서 변경할지 규칙을 정하는 작업은 간단하지만, 어플리케이션 규모가 크면 상당히 복잡해지고, 제대로 관리하지 않으면 성능도 떨어질 수 있다.
+  → 해당 기본 파일에서는 id가 root인 요소 안에 렌더링을 하도록 설정해놨다. 이 요소는 public/index.html 파일을 열어보면 존재한다.
 
-- 페이스북 개발 팀은 이를 해결하려고 하나의 아이디어를 고안해 냈다.
+# 4. JSX 문법
 
-  > **어떤 데이터가 변할 때마다 어떤 변화를 줄지 고민하는 것이 아니라, 그냥 기존 뷰를 날려 버리고 처음부터 새로 렌더링하는 방식**
+## 1. 감싸인 요소
 
-  **→ 어플리케이션 구조가 매우 간단해진다.**
+- 컴포넌트에 여러 요소가 있다면 반드시 부모 요소 하나로 감싸야 한다.
 
-  **→ 작성해야 할 코드양도 많이 줄어든다.**
+```jsx
+import React from 'react';
 
-  **→ 더 이상 어떻게 변화를 줄지 신경 쓸 필요가 없고, 그저 뷰가 어떻게 생길지 선언하며, 데이터에 변화가 있으면 기존에 있던 것은 버리고, 정해진 규칙에 따라 새로 렌더링하면 된다.**
+function App() {
+  return (
+    <h1>리액트 안녕!</h1>
+    <h2>잘 작동하니?</h2>
+  );
+}
 
-- 하지만 위의 방식대로 웹 브라우저에 적용하면 CPU 점유율도 크게 증가할 것이다. DOM은 느리기 때문이다. 이 과정에서 메모리 사용률도 매우 증가하게 될 것이다.
+export default App;
+```
 
-  → 끊김 현상 발생
+```
+SyntaxError: /Users/formegusto/Desktop/formegusto/study/study-reactjs/01-hello-react/src/App.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (6:4)
+```
 
-  → **페이스북 개발 팀이 앞서 설명한 방식으로 최대한 성능을 아끼고 편안한 사용자 경험(user experience)을 제공하면서 구현하고자 개발한 것이 바로 리액트(React)**이다.
+```jsx
+import React from 'react';
 
-## 1. 리액트 이해
+function App() {
+  return (
+    <div>
+      <h1>리액트 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </div>
+  );
+}
 
-- **리액트는 자바스크립트 라이브러리로 사용자 인터페이스를 만드는 데 사용**한다. 구조가 MVC, MVW 등인 프레임워크와 달리, **오직 V(View)만 신경 쓰는 라이브러리**이다.
-- 리액트 프로젝트에서 **특정 부분이 어떻게 생길지 정하는 선언체**가 있는데, 이를 **컴포넌트(Component)**라고 한다.
+export default App;
+```
 
-  → **컴포넌트는 다른 프레임워크에서 사용자 인터페이스를 다룰 때 사용하는 템플릿과는 다른 개념**이다.
+- 이와 같이 요소가 여러개 있는 경우, 부모 요소 하나에 의하여 감싸져야 한다.
 
-  → 템플릿은 보통 데이터셋이 주어지면 HTML 태그 형식을 문자열로 반환하는데, 이와 달리 **컴포넌트는 좀 더 복합적인 개념**이다.
+  → **이와 같이 요소 여러 개를 왜 하나의 요소로 꼭 감싸주어야 하냐면, Virtual DOM에서 컴포넌트 변화를 감지해낼 때 효율적으로 비교할 수 있도록 컴포넌트 내부는 하나의 DOM 트리 구조로 이루어져야 한다는 규칙이 있기 때문**이다.
 
-  → 컴포넌트는 **재사용이 가능한 API로 수많은 기능들을 내장**하고 있으며, 컴포넌트 하나에서 해당 컴포넌트의 생김새와 작동 방식을 정의한다.
+> Fragment
 
-- 사용자 화면에 뷰를 보여 주는 것을 렌더링이라고 한다.
-  - **리액트의 데이터 변화에 따른 최적화 된 렌더링의 비밀**을 파악하려면 **"초기 렌더링"**과 **"리렌더링"** 개념을 이해해야 한다.
+- 위에서 div 요소를 사용하고 싶지 않을 수도 있다. 그런 경우에는 리액트 v16 이상 부터 도입된 Fragment라는 기능을 사용하면 된다.
 
-### 1. 초기 렌더링
+```jsx
+import React, { Fragment } from 'react';
 
-- 어떤 **UI 관련 프레임워크, 라이브러리를 사용하든지 간에 맨 처음 어떻게 보일지를 정하는 초기 렌더링**이 필요하다. 리액트에서는 이를 다루는 **render 함수**가 있다.
+function App() {
+  return (
+    <Fragment>
+      <h1>리액트 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </Fragment>
+  );
+}
 
-  → 이 함수는 **컴포넌트가 어떻게 생겼는지 정의하는 역할**을 한다.
+export default App;
+```
 
-  → 이 함수는 **html 형식의 문자열을 반환하지 않고, 뷰가 어떻게 생겼고 어떻게 작동하는지에 대한 정보를 지닌 객체를 반환**한다.
+- Fragment는 다음과 같이도 표현가능하다.
 
-- 컴포넌트 내부에는 또 다른 컴포넌트들이 들어갈 수 있다. 이때 render 함수를 실행하면 그 내부에 있는 컴포넌트들도 재귀적으로 렌더링한다.
+```jsx
+import React from 'react';
 
-  → 이렇게 **최상위 컴포넌트의 렌더링 작업이 끝나면 지니고 있는 정보들을 사용하여 HTML 마크업(markup)을 만들고, 이를 우리가 정하는 실제 페이지의 DOM 요소 안에 주입**한다.
+function App() {
+  return (
+    <>
+      <h1>리액트 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
 
-- 컴포넌트를 실제 페이지에 렌더링할 때는 **분리된 두 가지 절차**를 따르는데, 먼저 **문자열 형태의 HTML 코드를 생성**한 후 **특정 DOM에 해당 내용을 주입하면 이벤트가 적용**된다.
+export default App;
+```
 
-### 2. 조화 과정
+## 2. 자바스크립트 표현
 
-- 리액트 라이브러리에서 중요한 부분인 업데이트의 대한 이야기
-- 우선 리액트에서 뷰를 업데이트할 때는 "업데이트 과정을 거친다"라고 하기보다는 **"조화 과정(reconcilation)을 거친다"**라고 하는 것이 더 정확한 표현이다.
+- JSX 안에서는 자바스크립트 표현식을 쓸 수 있다.
+- 자바스크립트 표현식을 작성하려면 JSX 내부에서 코드를 { }로 감싸면 된다.
 
-  → **컴포넌트에서 데이터에 변화가 있을 때, 우리가 보기에는 변화에 따라 뷰가 변형되는 것처럼 보이지만, 사실은 새로운 요소로 갈아끼워지는 것**이다.
+```jsx
+import React from 'react';
 
-- 이 작업 또한 **render 함수**가 맡아서 한다.
+function App() {
+  const name = '리액트';
+  return (
+    <>
+      <h1>{name} 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
 
-  → render 함수는 **뷰가 어떻게 생겼고, 어떻게 작동하는지 객체를 반환**한다.
+export default App;
+```
 
-  → 컴포넌트는 데이터를 업데이트 했을 때, 단순히 업데이트한 값을 수정하는 것이 아니라, **새로운 데이터를 가지고 render 함수를 또 다시 호출**한다. 그러면 그 데이터를 지닌 뷰를 생성해 낼 것이다.
+## 3. if 문 대신 조건부 연산자
 
-  → 하지만 이 때, **render 함수가 반환하는 결과를 곧바로 DOM에 반영하지 않고, 이전에 render 함수가 만들었던 컴포넌트 정보와 현재 render 함수가 만든 컴포넌트 정보를 비교**하고, **자바스크립트를 사용하여 두 가지 뷰를 최소한의 연산으로 비교**한 후, **둘의 차이를 알아내 최소한의 연산으로 DOM 트리를 업데이트**하는 것이다.
+- JSX 내부의 자바스크립트 표현식에서 if 문을 사용할 수는 없다. 하지만 조건에 따라 다른 내용을 렌더링해야 할 때는 JSX 밖에서 if 문을 사용하여 사전에 값을 설정하거나, { } 안에 조건부 연산자를 사용하면 된다.
+- TypeScript 특징상 Always false 조건을 컴파일 허용하지 않음.
 
-  → 결국 방식 자체는 루트 노드부터 시작하여 전체 컴포넌트를 처음부터 다시 렌더링하는 것처럼 보이지만, 사실 최적의 자원을 사용하여 이를 수행하는 것이다.
+```jsx
+import React from 'react';
 
-- 더 구체적으로 이해하기 위해서는 **Virtual DOM**을 알아야 한다.
+function App() {
+  let name = '리액트';
+  return (
+    <>
+      {name === '리액트' ? <h1>리액트입니다.</h1> : <h2>리액트가 아닙니다.</h2>}
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
 
-# 2. 리액트의 특징
+export default App;
+```
 
-## 1. Virtual DOM
+## 4. AND 연산자(&&)를 사용한 조건부 렌더링
 
-- 리액트의 주요 특징 중 하나.
+- 개발하다 보면 특정 조건을 만족할 때 내용을 보여 주고, 만족하지 않을 때 아예 아무것도 렌더링하지 않아야 하는 상황이 올 수 있다. 이럴 때도 조건부 연산자를 통해 구현할 수는 있다.
 
-### 1. DOM(Document Object Model) 이란?
+```jsx
+import React from 'react';
 
-- 객체로 문서 구조를 표현하는 방법으로 XML이나 HTML로 작성한다.
-- 웹 브라우저는 DOM을 활용하여 객체에 자바스크립트와 CSS를 적용한다.
+function App() {
+  let name = '리액트';
+  return (
+    <>
+      {name === '리액트' ? <h1>리액트입니다.</h1> : null}
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
 
-> DOM은 과연 느린가?
+export default App;
+```
 
-- 요즘 DOM API를 수많은 플랫폼과 웹 브라우저에서 사용하는데, 이 **DOM에는 치명적인 한 가지 문제점이 있다. 바로 동적 UI에 최적화되어 있지 않다는 것**이다. HTML은 자체적으로는 정적이다. 자바스크립트를 사용하여 이를 동적으로 만들 수 있다.
-- 이 요새의 개수가 몇 백 개, 몇 천 개 단위로 많다면 이야기는 좀 달라진다. 이렇게 규모가 큰 웹 어플리케이션에서 DOM에 직접 접근하여 변화를 주다 보면 성능 이슈가 조금씩 발생하기 시작한다.
-- 일부 문서에서는 이를 두고 **"요즘 자바스크립트 엔진은 매우 빠른 반면, DOM은 느리다"**라고 하는데, 정확한 말은 아니다.
+- **리액트 컴포넌트에서는 null을 반환하면 아무것도 보여주지 않는다.**
+- 이와 같게 and 연산자로 위 코드를 간단하게 표현한다.
 
-  → **DOM 자체는 빠르다.**
+```jsx
+import React from 'react';
 
-  → DOM 자체를 읽고 쓸 때의 성능은 자바스크립트 객체를 처리할 때의 성능과 비교하여 다르지 않다.
+function App() {
+  let name = '리액트';
+  return (
+    <>
+      {name === '리액트' && <h1>리액트입니다.</h1>}
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
 
-  → **단, 웹 브라우저 단에서 DOM에 변화가 일어나면 웹 브라우저가 CSS를 다시 연산하고, 레이아웃을 구성하고, 페이지를 리페인트한다. 이 과정에서 시간이 허비되는 것**이다.
+export default App;
+```
 
-> 해결법
+- 해당 코드가 되는 이유는 **리액트에서 false를 렌더링할 때는 null과 마찬가지로 아무것도 나타나지 않기 때문**이다.
+- 여기서 한 가지 주의해야 할 점은 **falsy한 값인 0은 예외적으로 화면에 나타난다.**
 
-- HTML 마크업을 시각적인 형태로 변환하는 것은 웹 브라우저가 하는 주 역할이기 때문에, 이를 처리할 때 컴퓨터 자원을 사용하는 것은 어쩔 수 없다. DOM을 조작할 때마다 엔진이 웹 페이지를 새로 그리기 때문에 업데이트가 너무 잦으면 성능이 저하될 수 있다.
-- 이런 문제는 **DOM을 최소한으로 조작하여 작업을 처리하는 방식으로 개선**할 수 있다. **리액트는 Virtual DOM 방식을 사용하여 DOM 업데이트를 추상화함으로써 DOM 처리 횟수를 최소화하고, 효율적으로 진행**한다.
+```jsx
+const number = 0;
+// 0이 화면에 나타난다.
+return number && <div>내용</div>;
+```
 
-### 2. Virtual DOM
+> JSX를 괄호로 감싸는 경우
 
-- VirtualDOM을 사용하면 실제 DOM에 접근하여 조족하는 대신, **이를 추상화한 자바스크립트 객체를 구성하여 사용**한다. 실제 DOM의 가벼운 사본과 비슷하다.
-- 리액트에서 데이터가 변하여 웹 브라우저에 실제 DOM을 업데이트할 때는 다음과 같은 세 가지 절차를 밟는다.
-  1. **데이터를 업데이트하면 전체 UI를 Virtual DOM에 리렌더링한다.**
-  2. **이전 Virtual DOM에 있던 내용과 현재 내용을 비교한다.**
-  3. **바뀐 부분만 실제 DOM에 적용한다.**
-- 위에서 말한 **render 함수에서 생성하는 DOM이 바로 VirtualDOM**이다.
+- JSX를 여러 줄로 작성할 때 괄호로 감싸고, 한 줄로 표현할 수 있는 JSX는 감싸지 않는다. JSX를 괄호로 감싸는 것은 필수 사항이 아니다. 감싸도 되고, 감싸지 않아도 된다.
 
-> 오해
+## 5. undefined를 렌더링하지 않기
 
-- **Virtual DOM을 사용한다고 해서 사용하지 않을 때와 비교하여 무조건 빠른 것은 아니다.**
+- **리액트 컴포넌트에서는 함수에서 undefined만 반환하여 렌더링하는 상황을 만들면 안된다.**
 
-  > 우리는 다음 문제를 해결하려고 리액트를 만들었습니다.
+```jsx
+import React from 'react';
 
-  > **지속적으로 데이터가 변화하는 대규모 어플리케이션 구축하기**
+function App() {
+  const name = undefined;
+  return name;
+}
 
-- 이렇듯 결국에는 적절한 곳에 사용해야 리액트가 지닌 진가를 비로소 발휘할 수 있다. 리액트를 사용하지 않아도 코드 최적화를 열심히 하면 DOM 작업이 느려지는 문제를 개선할 수 있고, 또 작업이 매우 간단할 때는 오히려 리액트를 사용하지 않는 편이 더 나은 성능을 보이기도 한다.
-- **리액트와 Virtual DOM이 언제나 제공할 수 있는 것은 바로 업데이트 처리 간결성**이다. **UI를 업데이트하는 과정에서 생기는 복잡함을 모두 해소하고, 더욱 쉽게 업데이트에 접근**할 수 있다.
+export default App;
+```
 
-## 2. 기타 특징
+```
+/Users/formegusto/Desktop/formegusto/study/study-reactjs/01-hello-react/src/index.tsx
+TypeScript error in /Users/formegusto/Desktop/formegusto/study/study-reactjs/01-hello-react/src/index.tsx(9,6):
+'App' cannot be used as a JSX component.
+  Its return type 'undefined' is not a valid JSX element.
+```
 
-- 일부 웹 프레임워크가 MVC 또는 MVW 등의 구조를 지향하는 것과 달리 리액트는 오직 뷰만 담당한다. 다시 한 번 강조하면 **리액트는 프레임워크가 아니라, 라이브러리**이다.
-- 다른 웹 프레임워크가 Ajax, 데이터 모델링, 라우팅 등과 같은 기능을 내장하고 있는 반면, 리액트는 정말 뷰만 신경쓰는 라이브러리이므로 **기타 기능은 직접 구현하여 사용**해야 한다.
-- 리액트에서는 주로 다른 개발자들이 만든 라이브러리를 이용해서 해결한다.
-- 해당 분야에서 마음에 드는 라이브러리를 사용하면 되니까, **자신의 취향대로 스택을 설정할 수 있다는 장점이 있지만, 여러 라이브러리를 접해야 한다는 단점**도 있다.
-- 또 **리액트는 다른 웹 프레임워크나 라이브러리와 혼용할 수도 있다**. 예를 들어 Backbon.js, Angular.js 등의 프레임워크와 함께 언제든지 사용할 수 있다.
+- **어떤 값이 undefined일 수도 있다면, OR(||) 연산자를 사용하면 해당 값이 undefined일 때 사용할 값을 지정할 수 있으므로, 간단하게 오류를 방지할 수 있다.**
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name = undefined;
+  return name || <>값이 undefined 입니다.</>;
+}
+
+export default App;
+```
+
+- **반면 JSX 내부에서 undefined를 렌더링하는 것은 괜찮다.**
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name = undefined;
+  // return name || <>값이 undefined 입니다.</>;
+  return <div>{name}</div>;
+}
+
+export default App;
+```
+
+- name 값이 undefined일 때, 보여 주고 싶은 문구가 있다면 다음과 같이 코드를 작성할 수 있다.
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name = undefined;
+  // return name || <>값이 undefined 입니다.</>;
+  return <div>{name || '리액트'}</div>;
+}
+
+export default App;
+```
+
+## 6. 인라인 스타일링
+
+```jsx
+import React, { CSSProperties } from 'react';
+
+function App() {
+  const name: string = '리액트';
+  const style: CSSProperties = {
+    backgroundColor: 'black',
+    color: 'aqua',
+    fontSize: '48px',
+    fontWeight: 'bold',
+    padding: 16,
+  };
+  return <div style={style}>{name}</div>;
+}
+
+export default App;
+```
+
+- 리액트에서 DOM 요소에 스타일을 적용할 때는 문자열 형태로 넣는 것이 아니라, 객체 형태로 넣어 주어야 한다.
+- 표기법은 카멜표기법(camelCase)으로 작성한다.
+
+## 7. class 대신 className
+
+- 일반 HTML 에서 CSS 클래스를 사용할 때는 <div class="myclass"></div> 와 같이 class라는 속성을 설정합니다.
+- 하지만 JSX에서는 class가 아닌, className으로 설정해 주어야 한다.
+- 이전에는 class로 CSS 클래스를 설정할 때, 오류가 발생하고 CSS 클래스가 적용되지 않았는데, 리액트 v16 이상부터는 class를 className으로 변환시켜 주고 경고를 띄운다.
+
+## 8. 꼭 닫아야 하는 태그
+
+- HTML 코드를 작성할 때 가끔 태그를 닫지 않은 상태로 코드를 작성하기도 한다.
+- 예를 들면 input HTML 요소는 <input></input> 이라 입력하지 않고, <input>이라고만 입력해도 작동한다.
+
+```html
+<form>
+  성: <br />
+  <input /><br />
+  이름: <br />
+  <input />
+</form>
+```
+
+- JSX에서는 위 코드처럼 태그를 닫지 않으면 오류가 발생한다. (HTML에서는 작동하는 구문)
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name:string = "리액트";
+  return (
+    <>
+      <div className="react">{name}</div>
+      <input>
+    </>
+  );
+}
+
+export default App;
+```
+
+```
+SyntaxError: /Users/formegusto/Desktop/formegusto/study/study-reactjs/01-hello-react/src/App.tsx: Unterminated JSX contents (9:7)
+```
+
+- **태그를 닫아주든, self-closing으로 닫아주든 어쨋든 무조건 닫아주어야 한다.**
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name: string = '리액트';
+  return (
+    <>
+      <div className="react">{name}</div>
+      <input />
+    </>
+  );
+}
+
+export default App;
+```
+
+## 9. 주석
+
+- JSX 내부에서 주석을 작성할 때는 {/_ ... _/} 와 같은 형식으로 작성한다. 이렇게 여러 줄로도 작성할 수 있다.
+- 시작 태그를 여러 줄로 작성할 때는 그 내부에서 // ... 과 같은 형식의 주석도 작성할 수 있다.
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name: string = '리액트';
+  return (
+    <>
+      {/* 주석은 이렇게 작성한다. */}
+      <div
+        className="react" // 시작 태그를 여러 줄로 작성하게 된다면 여기에 주석을 작성할 수 있다.
+      >
+        {name}
+      </div>
+      // 하지만 이런 주석이나 /* 이런 주석은 페이지에 그대로 나타나게 된다. */
+      <input />
+    </>
+  );
+}
+
+export default App;
+```
+
+# 5. ESLint와 Prettier 적용하기
+
+- ESLint는 문법 검사 도구이고, Prettier는 코드 스타일 자동 정리 도구이다.
+
+## 1. ESLint
+
+- 코드를 작성할 때 실수를 하면 에러 혹은 경고 메시지를 VSCode 에디터에서 바로 확인할 수 있게 해준다.
+
+## 2. Prettier
+
+- JSX를 작성할 때는 코드의 가독성을 위해 들여쓰기를 사용한다. 들여쓰기가 제대로 되어 있지 않은 코드는 읽기가 매우 힘들다.
+
+```jsx
+import React from 'react';
+
+function App() {
+  const name: string = '리액트';
+  return (
+    <>
+      <div className="react">{name}</div>
+      <h1>들여쓰기가 이상한</h1>
+      <h2>코드</h2>
+      <p>입니다.</p>
+    </>
+  );
+}
+
+export default App;
+```
+
+- ㅗㅜㅑ;;;
+- F1 → format document
+
+  하면 바로 적용된다.
+
+  코드가 자동으로 정렬되고, 세미콜론(;)이 빠진 곳에는 자동으로 세미콜론이 추가된다.
+
+  기존에 사용하던 작음따옴표는 모두 큰따옴표로 바뀌었을 것이다.
+
+  세미콜론은 코드의 뒷부분에 무조건 있어야 하는 문자가 아니다. 이는 단순히 코딩 관습의 차이일 뿐이다. 주로 협업하는 과정에서 정하는 규칙이고, 사람들마다 다른 방식을 사용한다.
+
+- Prettier의 장점은 이러한 스타일을 쉽게 커스터마이징할 수 있다는 것이다.현재 열려 있는 프로젝트의 루트 디렉터리(src, public 디렉터리들이 위치한 곳)에서 .prettierrc 라는 파일을 생성해보자.
+
+  ```json
+  {
+    "singleQuote": true,
+    "semi": true,
+    "useTabs": false,
+    "tabWidth": 2
+  }
+  ```
+
+  → 들여쓰기를 할 때 탭 대신 공백을 두 칸 사용하도록 했다. 그리고 큰따옴표 대신 작은 따옴표를 쓰게 했고, 세미콜론은 언제나 붙이도록 설정했다. Prettier는 이 외에에도 다양한 코드 스타일을 사전 설정할 수 있다.
+
+  [Options · Prettier](https://prettier.io/docs/en/options.html)
+
+### 1. 저장할 때 자동으로 코드 정리하기
+
+- 코드 스타일을 정리할 필요가 있을 때마다 F1을 누르기 보다, 혹은 단축키를 입력하는 것보다 더 편한 방식은 저장할 때 자동으로 정리하게 만드는 것이다.
+- VSCode → Code → Preferences → Settings (Command + , )
+- Format On Save 설정 체크박스를 체크해주면 된다.
+
+# 6. 정리
+
+- JSX는 HTML과 비슷하지만 완전히 똑같지는 않다. 코드로 보면 XML 형식이지만, 실제로는 자바스크립트 객체이며, 용도도 다르고 문법도 조금씩 차이가 난다.
