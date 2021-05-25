@@ -552,6 +552,9 @@ export default App;
 
 - 코드 스타일을 정리할 필요가 있을 때마다 F1을 누르기 보다, 혹은 단축키를 입력하는 것보다 더 편한 방식은 저장할 때 자동으로 정리하게 만드는 것이다.
 - VSCode → Code → Preferences → Settings (Command + , )
+
+![formatonsave](https://user-images.githubusercontent.com/52296323/119424701-e6a40e80-bd40-11eb-9808-ca68ca59f4be.png)
+
 - Format On Save 설정 체크박스를 체크해주면 된다.
 
 # 6. 정리
