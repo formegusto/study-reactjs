@@ -2,6 +2,7 @@ import React from "react";
 
 type Props = {
   color: string;
+  rest: any;
 };
 
 type State = {
@@ -72,6 +73,7 @@ class LifeCycleComponent extends React.Component<Props, State> {
 
     return (
       <div>
+        {this.props.rest.missing.value};
         <h1 style={style} ref={this.myRef}>
           {this.state.number}
         </h1>
