@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
 const getAverage = (nums: number[]): number => {
   console.log("평균값 계산 중..");
@@ -8,21 +8,23 @@ const getAverage = (nums: number[]): number => {
 function AverageComponent() {
   const [nums, setNums] = useState<number[]>([]);
   const [input, setInput] = useState<string>("");
+  const inputEl: React.Ref<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-  };
+  }, []); // 컴포넌트가 처음 렌더링될 때만 함수 생성
 
-  const onClick = () => {
+  const onClick = useCallback(() => {
     setNums(nums.concat(parseInt(input)));
     setInput("");
-  };
+    if (inputEl.current) inputEl.current.focus();
+  }, [nums, input]); // number 혹은 list가 바뀌었을 때만 함수 생성
 
   const avg = useMemo(() => getAverage(nums), [nums]);
 
   return (
     <div>
-      <input value={input} type="text" onChange={onChange} />
+      <input value={input} type="text" onChange={onChange} ref={inputEl} />
       <button onClick={onClick}>추가</button>
       <ul>
         {nums.map((num, idx) => (

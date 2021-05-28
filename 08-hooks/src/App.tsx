@@ -1,8 +1,8 @@
 import React from "react";
-import AverageComponent from "./AverageComponent";
+import InfoReducerComponent from "./InfoReducerComponent";
 
 function App() {
-  return <AverageComponent />;
+  return <InfoReducerComponent />;
 }
 
 export default App;

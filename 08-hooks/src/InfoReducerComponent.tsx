@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import useInputs from "./useInputs";
 
 type State = {
   name: string;
@@ -13,20 +14,23 @@ function reducer(state: State, e: React.ChangeEvent<HTMLInputElement>) {
 }
 
 function InfoReducerComponent() {
-  const [state, dispatch]: [
+  const [state, onChange]: [
     State,
     (e: React.ChangeEvent<HTMLInputElement>) => void
-  ] = useReducer(reducer, { name: "", nickname: "" });
+  ] = useInputs<State>({
+    name: "",
+    nickname: "",
+  });
 
   return (
     <div>
       <div>
-        <input name="name" type="text" value={state.name} onChange={dispatch} />
+        <input name="name" type="text" value={state.name} onChange={onChange} />
         <input
           name="nickname"
           type="text"
           value={state.nickname}
-          onChange={dispatch}
+          onChange={onChange}
         />
       </div>
       <div>
