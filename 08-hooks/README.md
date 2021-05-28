@@ -93,7 +93,7 @@ function InfoComponent() {
 export default InfoComponent;
 ```
 
-[image](https://user-images.githubusercontent.com/52296323/119927537-90d79c80-bfb4-11eb-8408-a74e00266513.png)
+![image](https://user-images.githubusercontent.com/52296323/119927537-90d79c80-bfb4-11eb-8408-a74e00266513.png)
 
 
 ## 1. 마운트될 때만 실행하고 싶을 때
