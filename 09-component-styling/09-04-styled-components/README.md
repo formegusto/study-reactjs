@@ -1,4 +1,4 @@
-# 4. styled-components
+# styled-components
 
 - 컴포넌트 스타일링의 또 다른 패러다임은 자바스크립트 파일 안에 스타일을 선언하는 방식이다.
 - 이 방식을 'CSS-in-JS'라고 부른다.
@@ -70,7 +70,7 @@ tagged`hello ${{ foo: "bar" }} ${() => "world"}`;
 
 - 위와 같이 사용해주면 템플릿에 넣은 값을 온전히 추출할 수 있다.
 
-![09_%E1%84%8F%E1%85%A5%E1%86%B7%E1%84%91%E1%85%A9%E1%84%82%E1%85%A5%E1%86%AB%E1%84%90%E1%85%B3%20%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC%20e189fb15f24544e3ab1d6f3561be7454/Untitled.png](09_%E1%84%8F%E1%85%A5%E1%86%B7%E1%84%91%E1%85%A9%E1%84%82%E1%85%A5%E1%86%AB%E1%84%90%E1%85%B3%20%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC%20e189fb15f24544e3ab1d6f3561be7454/Untitled.png)
+![image](https://user-images.githubusercontent.com/52296323/120125951-9c65d600-c1f5-11eb-829a-fbc34a266b57.png)
 
 - Tagged 템플릿 리터럴을 사용하면 이렇게 템플릿 사이사이에 들어가는 자바스크립트 객체나 함수의 원본 값을 그대로 추출할 수 있다. styled-components는 이러한 속성을 사용하여 styled-components로 만든 컴포넌트의 props를 스타일 쪽에서 쉽게 조회할 수 있도록 해준다.
 
