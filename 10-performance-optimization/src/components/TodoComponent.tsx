@@ -6,13 +6,20 @@ import TodoTemplate from '../templates/TodoTemplate';
 
 type Props = {
   todos: Todo[];
+  onInsert: (text: string) => void;
+  onDelete: (id: number) => void;
+  onToggle: (id: number) => void;
 };
 
 function TodoComponent(props: Props) {
   return (
     <TodoTemplate>
-      <TodoForm />
-      <TodoList todos={props.todos} />
+      <TodoForm onInsert={props.onInsert} />
+      <TodoList
+        todos={props.todos}
+        onDelete={props.onDelete}
+        onToggle={props.onToggle}
+      />
     </TodoTemplate>
   );
 }

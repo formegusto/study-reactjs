@@ -1,7 +1,12 @@
 import React from 'react';
 
-interface Action extends String {
-  payload: Todo;
+const INSERT_TODO = 'todos/insert';
+const DELETE_TODO = 'todos/update';
+const TOGGLE_TODO = 'todos/toggle';
+
+interface Action {
+  type: typeof INSERT_TODO | typeof DELETE_TODO | typeof TOGGLE_TODO;
+  payload: string | number;
 }
 
 export type Todo = {
@@ -11,14 +16,49 @@ export type Todo = {
 };
 
 function reducer(state: Todo[], action: Action): Todo[] {
-  switch (action) {
+  switch (action.type) {
+    case INSERT_TODO:
+      return state.concat({
+        id: state[state.length - 1].id + 1,
+        checked: false,
+        text: action.payload as string,
+      });
+    case DELETE_TODO:
+      return state.filter((todo) => todo.id !== (action.payload as number));
+    case TOGGLE_TODO:
+      return state.map((todo) =>
+        todo.id === (action.payload as number)
+          ? { ...todo, checked: !todo.checked }
+          : todo,
+      );
     default:
       return state;
   }
 }
 
 export default function useTodos(initialTodos: Todo[]) {
-  const [todos] = React.useReducer(reducer, initialTodos);
+  const [todos, dispatch] = React.useReducer(reducer, initialTodos);
 
-  return { todos };
+  const onInsert = (text: string) => {
+    dispatch({
+      type: INSERT_TODO,
+      payload: text,
+    });
+  };
+
+  const onDelete = (id: number) => {
+    dispatch({
+      type: DELETE_TODO,
+      payload: id,
+    });
+  };
+
+  const onToggle = (id: number) => {
+    dispatch({
+      type: TOGGLE_TODO,
+      payload: id,
+    });
+  };
+
+  return { todos, onInsert, onDelete, onToggle };
 }

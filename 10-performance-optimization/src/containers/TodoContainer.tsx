@@ -3,7 +3,7 @@ import TodoComponent from '../components/TodoComponent';
 import useTodos from '../hooks/useTodos';
 
 function TodoContainer() {
-  const { todos } = useTodos([
+  const { todos, onInsert, onDelete, onToggle } = useTodos([
     {
       id: 1,
       text: '리액트의 기초 알아보기',
@@ -21,7 +21,14 @@ function TodoContainer() {
     },
   ]);
 
-  return <TodoComponent todos={todos} />;
+  return (
+    <TodoComponent
+      todos={todos}
+      onInsert={onInsert}
+      onDelete={onDelete}
+      onToggle={onToggle}
+    />
+  );
 }
 
 export default TodoContainer;
