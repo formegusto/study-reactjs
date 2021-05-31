@@ -321,7 +321,7 @@ export default React.memo(
 
 # 9. 정리
 
-스크린샷 2021-05-31 오후 2.48.46![image](https://user-images.githubusercontent.com/52296323/120147284-61799780-c221-11eb-8ac2-53bbd9420028.png)
+![image](https://user-images.githubusercontent.com/52296323/120147284-61799780-c221-11eb-8ac2-53bbd9420028.png)
 
 - 리액트 컴포넌트의 렌더링은 기본적으로 빠르기 때문에 컴포넌트를 개발할 때, 최적화 작업에 대해 너무 큰 스트레스를 받거나 모든 컴포넌트에 일일이 React.memo를 작성할 필요는 없다.
 - 단, 리스트와 관련된 컴포넌트를 만들 때, 보여 줄 항목이 100개 이상이고, 업데이트가 자주 발생한다면, 꼭 최적화를 해주어야 한다.
