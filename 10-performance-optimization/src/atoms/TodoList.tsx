@@ -12,14 +12,16 @@ type Props = {
 function TodoList(props: Props) {
   return (
     <div className="TodoList">
-      {props.todos.map((todo) => (
-        <TodoListItem
-          todo={todo}
-          key={todo.id}
-          onDelete={props.onDelete}
-          onToggle={props.onToggle}
-        />
-      ))}
+      {props.todos.map((todo) => {
+        return (
+          <TodoListItem
+            todo={todo}
+            key={todo.id}
+            onDelete={props.onDelete}
+            onToggle={props.onToggle}
+          />
+        );
+      })}
     </div>
   );
 }

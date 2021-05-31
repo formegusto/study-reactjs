@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const INSERT_TODO = 'todos/insert';
 const DELETE_TODO = 'todos/update';
@@ -36,29 +36,44 @@ function reducer(state: Todo[], action: Action): Todo[] {
   }
 }
 
-export default function useTodos(initialTodos: Todo[]) {
-  const [todos, dispatch] = React.useReducer(reducer, initialTodos);
+/*
+  usage
+    has initState
+    useTodos(stateTodos, undefined)
 
-  const onInsert = (text: string) => {
+    has stateGenerator
+    useTodos(undefine, stateGenerator)
+*/
+export default function useTodos(
+  initialTodos?: Todo[],
+  todosGenerator?: () => Todo[],
+) {
+  const [todos, dispatch] = React.useReducer(
+    reducer,
+    initialTodos,
+    todosGenerator!,
+  );
+
+  const todoInsert = useCallback((text: string) => {
     dispatch({
       type: INSERT_TODO,
       payload: text,
     });
-  };
+  }, []);
 
-  const onDelete = (id: number) => {
+  const todoDelete = useCallback((id: number) => {
     dispatch({
       type: DELETE_TODO,
       payload: id,
     });
-  };
+  }, []);
 
-  const onToggle = (id: number) => {
+  const todoToggle = useCallback((id: number) => {
     dispatch({
       type: TOGGLE_TODO,
       payload: id,
     });
-  };
+  }, []);
 
-  return { todos, onInsert, onDelete, onToggle };
+  return { todos, todoInsert, todoDelete, todoToggle };
 }

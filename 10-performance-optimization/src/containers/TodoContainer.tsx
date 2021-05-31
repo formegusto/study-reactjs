@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import TodoComponent from '../components/TodoComponent';
-import useTodos from '../hooks/useTodos';
+import useTodos, { Todo } from '../hooks/useTodos';
+
+const ManyTodosGenerator = (): Todo[] => {
+  const todos = [];
+  for (let i = 1; i <= 2500; i++)
+    todos.push({
+      id: i,
+      text: `할 일 ${i}`,
+      checked: false,
+    });
+  return todos;
+};
 
 function TodoContainer() {
-  const { todos, onInsert, onDelete, onToggle } = useTodos([
-    {
-      id: 1,
-      text: '리액트의 기초 알아보기',
-      checked: true,
+  const { todos, todoInsert, todoDelete, todoToggle } = useTodos(
+    undefined,
+    ManyTodosGenerator,
+  );
+
+  const onInsert = useCallback(
+    (text: string) => {
+      todoInsert(text);
     },
-    {
-      id: 2,
-      text: '컴포넌트 스타일링해 보기',
-      checked: true,
+    [todoInsert],
+  );
+
+  const onDelete = useCallback(
+    (id: number) => {
+      todoDelete(id);
     },
-    {
-      id: 3,
-      text: '일정 관리 앱 만들어 보기',
-      checked: false,
+    [todoDelete],
+  );
+
+  const onToggle = useCallback(
+    (id: number) => {
+      todoToggle(id);
     },
-  ]);
+    [todoToggle],
+  );
 
   return (
     <TodoComponent

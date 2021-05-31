@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
@@ -15,28 +15,20 @@ type Props = {
 };
 
 function TodoListItem(props: Props) {
-  const onDelete = useCallback(() => {
-    props.onDelete(props.todo.id);
-  }, [props]);
-
-  const onToggle = useCallback(() => {
-    props.onToggle(props.todo.id);
-  }, [props]);
-
   return (
     <div className="TodoListItem">
       <div
         className={cn('checkbox', props.todo.checked && 'checked')}
-        onClick={onToggle}
+        onClick={() => props.onToggle(props.todo.id)}
       >
         {props.todo.checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
         <div className="text">{props.todo.text}</div>
       </div>
-      <div className="remove" onClick={onDelete}>
+      <div className="remove" onClick={() => props.onDelete(props.todo.id)}>
         <MdRemoveCircleOutline />
       </div>
     </div>
   );
 }
 
-export default TodoListItem;
+export default React.memo(TodoListItem);
