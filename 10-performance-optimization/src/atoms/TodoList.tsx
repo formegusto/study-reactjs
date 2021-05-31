@@ -1,13 +1,18 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
 import '../styles/TodoList.scss';
+import { Todo } from '../hooks/useTodos';
 
-function TodoList() {
+type Props = {
+  todos: Todo[];
+};
+
+function TodoList(props: Props) {
   return (
     <div className="TodoList">
-      <TodoListItem />
-      <TodoListItem />
-      <TodoListItem />
+      {props.todos.map((todo, idx) => (
+        <TodoListItem todo={todo} />
+      ))}
     </div>
   );
 }

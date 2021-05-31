@@ -1,8 +1,8 @@
 import React from 'react';
-import TodoComponent from './components/TodoComponent';
+import TodoContainer from './containers/TodoContainer';
 
 function App() {
-  return <TodoComponent />;
+  return <TodoContainer />;
 }
 
 export default App;
