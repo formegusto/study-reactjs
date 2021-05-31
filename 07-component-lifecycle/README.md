@@ -283,15 +283,15 @@ componentDidCatch?(error: Error, errorInfo: ErrorInfo): void;
   export default App;
   ```
 
-![07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled.png](07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled.png)
+![image](https://user-images.githubusercontent.com/52296323/120189491-63a81a00-c252-11eb-90e2-bb5d7cc33b7b.png)
 
 Mount
 
-![07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled%201.png](07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled%201.png)
+![image](https://user-images.githubusercontent.com/52296323/120189507-686cce00-c252-11eb-8210-ddcb150a9876.png)
 
 Color Update
 
-![07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled%202.png](07_Component%20LifeCycle%2046b6ba1e40204c3a987b065566a025da/Untitled%202.png)
+![image](https://user-images.githubusercontent.com/52296323/120189547-73276300-c252-11eb-942c-289a3f15d2d0.png)
 
 Number Update
 
