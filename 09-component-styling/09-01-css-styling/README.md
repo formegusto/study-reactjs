@@ -1,46 +1,92 @@
-# Getting Started with Create React App
+# CSS-Styling
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 실제로 소규모 프로젝트를 개발하고 있다면 새로운 스타일링 시스템을 적용하는 것이 부담스러울 수도 있다. 그런 상황에는 프로젝트에 이미 적용되어 있는 기본 CSS 시스템을 사용하는 것만으로도 충분하다.
+- 프로젝트 생성 시, App.tsx에 App.css 가 적용되어 있는 것을 확인 할 수 있다.
 
-## Available Scripts
+```tsx
+import React from 'react';
+import logo from './logo.svg';
+**import './App.css';**
 
-In the project directory, you can run:
+function App() {
+  // (...)
+}
 
-### `yarn start`
+export default App;
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- CSS를 작성할 때 가장 중요한 점은 CSS 클래스를 중복되지 않게 만드는 것이다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  → 이름에 특별한 규칙을 사용하여 짓거나, CSS Selector를 활용한다.
 
-### `yarn test`
+## 1. 이름짓는 규칙
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- App.css를 읽어보면 클래스 네이밍을 [컴포넌트 이름-클래스] 형태로 지어져 있는 것을 볼 수 있다. 클래스 이름에 컴포넌트 이름을 포함시킴으로써, 다른 컴포넌트에서 실수로 중복되는 클래스를 만들어 사용하는 것을 방지할 수 있다.
+- 비슷한 방식으로 BEM 네이밍(BEM Naming)이라는 방식도 있다.
 
-### `yarn build`
+```css
+.App {
+  text-align: center;
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
-### `yarn eject`
+.App-link {
+  color: #61dafb;
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 2. CSS Selector
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- CSS Selector를 사용하면 CSS 클래스가 특정 클래스 내부에 있는 경우에만 스타일을 적용할 수 있다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```css
+.App .logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
 
-## Learn More
+.App header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+.App a {
+  color: #61dafb;
+}
+```
