@@ -140,7 +140,8 @@ class EventComponent extends React.Component {
 export default EventComponent;
 ```
 
-![04_Event%20Handling%20175506738ca643a29d0078530c84f545/Untitled.png](04_Event%20Handling%20175506738ca643a29d0078530c84f545/Untitled.png)
+![image](https://user-images.githubusercontent.com/52296323/120167146-5a11b880-c238-11eb-947c-486d078c3629.png)
+
 
 - **SyntheticBaseEvent 객체로, 웹 브라우저의 네이티브 이벤트를 감싸는 객체**이다. 네이티브 이벤트와 인터페이스가 같으므로, **순수 자바스크립트에서 HTML 이벤트를 다룰 때와 똑같이 사용**하면 된다.
 - **SyntheticEven는 네이티브 이벤트와 달리 이벤트가 끝나고 나면 이벤트가 초기화**되므로, 정보를 참조할 수 없다.
@@ -149,7 +150,8 @@ export default EventComponent;
 
 - **만약, 비동기적으로 이벤트 객체를 참조할 일이 있다면 e.persist() 함수를 호출**해주어야 한다. 예를 들어 onChange 이벤트가 발생할 때, 앞으로 변할 인풋 값인 e.target.value를 콘솔에 기록해보겠다.
 
-![04_Event%20Handling%20175506738ca643a29d0078530c84f545/Untitled%201.png](04_Event%20Handling%20175506738ca643a29d0078530c84f545/Untitled%201.png)
+![image](https://user-images.githubusercontent.com/52296323/120167156-5da53f80-c238-11eb-9edc-07dd7516d7e0.png)
+
 
 ### 2. state에 input 값 담기
 
