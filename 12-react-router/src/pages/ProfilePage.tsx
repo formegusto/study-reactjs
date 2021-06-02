@@ -1,5 +1,6 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
+import WithRouterPage from "./WithRouterPage";
 
 type User = {
   name: string;
@@ -35,6 +36,7 @@ function ProfilePage({ match }: RouteComponentProps<Parameter>) {
         {username}({profile.name})
       </h3>
       <p>{profile.description}</p>
+      <WithRouterPage />
     </div>
   ) : (
     <div>존재하지 않는 사용자입니다.</div>

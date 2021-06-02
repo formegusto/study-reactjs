@@ -1,18 +1,27 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Route } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProfilePage from "./ProfilePage";
 
 function ProfilesPage() {
+  const activeStyle: CSSProperties = {
+    backgroundColor: "#000",
+    color: "#FFF",
+  };
+
   return (
     <div>
       <h3>사용자 목록</h3>
       <ul>
         <li>
-          <Link to="/profiles/iamformegusto">formegusto profile</Link>
+          <NavLink activeStyle={activeStyle} to="/profiles/iamformegusto">
+            formegusto profile
+          </NavLink>
         </li>
         <li>
-          <Link to="/profiles/mike">mike profile</Link>
+          <NavLink activeStyle={activeStyle} to="/profiles/mike">
+            mike profile
+          </NavLink>
         </li>
       </ul>
       <div>
