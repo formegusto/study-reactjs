@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { Route } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ProfilePage from "./ProfilePage";
 
 function ProfilesPage() {
