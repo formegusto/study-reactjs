@@ -9,6 +9,7 @@ type ApiResult = {
 function App() {
   const [data, setData] = useState<ApiResult>();
 
+  console.log(process.env.REACT_APP_API_KEY);
   const onClick = async () => {
     try {
       const res = await axios.get<ApiResult>(
