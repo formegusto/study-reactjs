@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Article, Articles } from '../common/Types';
+import { Articles } from '../common/Types';
+import usePromise from '../lib/usePromise';
 import NewsItem from './NewsItem';
 
 type Props = {
@@ -9,28 +10,20 @@ type Props = {
 };
 
 function NewsList({ category }: Props) {
-  const [articles, setArticles] = useState<Article[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const query = category === 'all' ? '' : `&category=${category}`;
-      setLoading(true);
-      try {
-        const res = await axios.get<Articles>(
-          `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${process.env.REACT_APP_API_KEY}`,
-        );
-        setArticles(res.data.articles);
-      } catch (e) {
-        console.error(e);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
+  const [loading, response, error] = usePromise<Articles>(() => {
+    const query = category === 'all' ? '' : `&category=${category}`;
+    return axios.get<Articles>(
+      `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${process.env.REACT_APP_API_KEY}`,
+    );
   }, [category]);
 
   if (loading) return <NewsListBlock>대기 중...</NewsListBlock>;
+
+  if (!response) return null;
+
+  if (error) return <NewsListBlock>에러발생!</NewsListBlock>;
+
+  const { articles } = response.data;
 
   return (
     articles && (
