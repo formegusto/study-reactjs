@@ -20,4 +20,9 @@ type Source = {
   name: string;
 };
 
-export type { Articles, Article, Source };
+type Category = {
+  name: string;
+  text: string;
+};
+
+export type { Articles, Article, Source, Category };

@@ -1,19 +1,45 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Article } from '../common/Types';
+import { Article, Articles } from '../common/Types';
 import NewsItem from './NewsItem';
 
 type Props = {
-  articles: Article[];
+  category: string;
 };
 
-function NewsList({ articles }: Props) {
+function NewsList({ category }: Props) {
+  const [articles, setArticles] = useState<Article[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const query = category === 'all' ? '' : `&category=${category}`;
+      setLoading(true);
+      try {
+        const res = await axios.get<Articles>(
+          `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${process.env.REACT_APP_API_KEY}`,
+        );
+        setArticles(res.data.articles);
+      } catch (e) {
+        console.error(e);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [category]);
+
+  if (loading) return <NewsListBlock>대기 중...</NewsListBlock>;
+
   return (
-    <NewsListBlock>
-      {articles.map((article) => (
-        <NewsItem article={article} key={article.url} />
-      ))}
-    </NewsListBlock>
+    articles && (
+      <NewsListBlock>
+        {articles.map((article) => (
+          <NewsItem article={article} key={article.url} />
+        ))}
+      </NewsListBlock>
+    )
   );
 }
 
