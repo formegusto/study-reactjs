@@ -1,4 +1,5 @@
-import { CounterActions, CounterActionType } from './types';
+import { CounterActions } from './actions';
+import { DECREMENT, INCREMENT } from './types';
 
 type CounterStore = {
   number: number;
@@ -12,14 +13,14 @@ export type { CounterStore };
 
 export default function CountReducer(
   state = countStore,
-  action: CounterActionType,
+  action: CounterActions,
 ): CounterStore {
   switch (action.type) {
-    case CounterActions.INCREMENT:
+    case INCREMENT:
       return {
         number: state.number + 1,
       };
-    case CounterActions.DECREMENT:
+    case DECREMENT:
       return {
         number: state.number - 1,
       };
