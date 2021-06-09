@@ -1,19 +1,20 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
 import { RootStore } from '../';
-import { TodosAction, todosActionCreator } from './actions';
+import { todosActionCreator } from './actions';
+import { TodosStore } from '.';
 
-const mapState = ({ todos }: RootStore) => ({
-  todos: todos.todos,
-  input: todos.input,
+const mapState = ({ todos }: RootStore): TodosStore => ({
+  ...todos,
 });
 
+/*
 const mapDispatch = (dispatch: Dispatch<TodosAction>) =>
   bindActionCreators<TodosAction, typeof todosActionCreator>(
     todosActionCreator,
     dispatch,
   );
+*/
 
-const TodosConnector = connect(mapState, mapDispatch);
+const TodosConnector = connect(mapState, todosActionCreator);
 
 export default TodosConnector;

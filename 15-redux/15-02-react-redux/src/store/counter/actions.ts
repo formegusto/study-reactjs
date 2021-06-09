@@ -1,3 +1,4 @@
+import { createAction } from 'redux-actions';
 import { DECREMENT, INCREMENT } from './types';
 
 export type CounterAction = {
@@ -5,8 +6,8 @@ export type CounterAction = {
 };
 
 export const counterActions = {
-  increase: () => ({ type: INCREMENT }),
-  decrease: () => ({ type: DECREMENT }),
+  increase: createAction(INCREMENT),
+  decrease: createAction(DECREMENT),
 };
 
 export type CounterActions =

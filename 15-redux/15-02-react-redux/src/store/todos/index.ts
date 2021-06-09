@@ -1,7 +1,7 @@
 import { CHANGE_INPUT, INSERT, REMOVE, Todo, TOGGLE } from './types';
 import { TodosAction } from './actions';
 
-type TodosStore = {
+export type TodosStore = {
   input: string;
   todos: Todo[];
 };
@@ -24,24 +24,24 @@ const initialState: TodosStore = {
 
 export default function todosReducer(
   state = initialState,
-  action: TodosAction,
+  { type, payload }: TodosAction,
 ): TodosStore {
-  switch (action.type) {
+  switch (type) {
     case CHANGE_INPUT:
       return {
         ...state,
-        input: action.input!,
+        input: payload.input!,
       };
     case INSERT:
       return {
         ...state,
-        todos: state.todos.concat(action.todo!),
+        todos: state.todos.concat(payload.todo!),
       };
     case TOGGLE:
       return {
         ...state,
         todos: state.todos.map((todo) =>
-          todo.id === action.id
+          todo.id === payload.id
             ? {
                 ...todo,
                 done: !todo.done,
@@ -52,7 +52,7 @@ export default function todosReducer(
     case REMOVE:
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo.id !== action.id),
+        todos: state.todos.filter((todo) => todo.id !== payload.id),
       };
     default:
       return state;

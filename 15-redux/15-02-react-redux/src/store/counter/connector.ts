@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
 import { RootStore } from '..';
-import { CounterAction, counterActions } from './actions';
+import { counterActions } from './actions';
 
 const mapState = ({ counter }: RootStore) => ({
   number: counter.number,
@@ -18,7 +17,9 @@ const mapDispatch = (dispatch: Dispatch<CounterActionType>) => ({
 });
 */
 
+/*
 const mapDispatch = (dispatch: Dispatch<CounterAction>) =>
   bindActionCreators(counterActions, dispatch);
+*/
 
-export const CounterConnector = connect(mapState, mapDispatch);
+export const CounterConnector = connect(mapState, counterActions);
