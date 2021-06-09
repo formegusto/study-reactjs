@@ -7,9 +7,10 @@ import { applyMiddleware, createStore } from "redux";
 import RootReducer from "./store";
 import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
+import loggerMiddleware from "./lib/loggerMiddleware";
 
 const logger = createLogger();
-const store = createStore(RootReducer, applyMiddleware(logger));
+const store = createStore(RootReducer, applyMiddleware(loggerMiddleware));
 
 ReactDOM.render(
   <Provider store={store}>

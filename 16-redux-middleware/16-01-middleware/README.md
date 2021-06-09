@@ -61,6 +61,22 @@ export default function loggerMiddleware(store: MiddlewareAPI): any {
     };
   };
 }
+
+// 하지만 너무 하고 싶다면 즉시 반환 함수를 사용한다.
+export default (function (): Middleware {
+  return function (store: MiddlewareAPI) {
+    return function (next: Dispatch) {
+      return function (action: Action<any>) {
+        console.group(action && action.type);
+        console.log("이전 상태", store.getState());
+        console.log("액션", action);
+        next(action);
+        console.log("다음 상태", store.getState());
+        console.groupEnd();
+      };
+    };
+  };
+})();
 ```
 
 - 이것을 왜 적었냐면, 리덕스에서 사용하는 미들웨어의 형식은 함수를 반환하는 함수를 반환하는 함수라는 것이다.
