@@ -1,12 +1,21 @@
-import React from 'react';
-import { ConnectedProps } from 'react-redux';
+import React, { Dispatch, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CounterComponent from '../components/CounterComponent';
-import { CounterConnector } from '../store/counter/connector';
+import { RootStore } from '../store';
+import { CounterAction } from '../store/counter/actions';
+import { DECREMENT, INCREMENT } from '../store/counter/types';
 
-type Props = ConnectedProps<typeof CounterConnector>;
+function CounterContainer() {
+  const number = useSelector<RootStore, number>(
+    ({ counter }: RootStore) => counter.number,
+  );
+  const dispatch = useDispatch<Dispatch<CounterAction>>();
+  const increase = useCallback(() => dispatch({ type: INCREMENT }), [dispatch]);
+  const decrease = useCallback(() => dispatch({ type: DECREMENT }), [dispatch]);
 
-function CounterContainer(props: Props) {
-  return <CounterComponent {...props} />;
+  return (
+    <CounterComponent number={number} increase={increase} decrease={decrease} />
+  );
 }
 
-export default CounterConnector(CounterContainer);
+export default CounterContainer;

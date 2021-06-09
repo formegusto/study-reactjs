@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { DECREMENT, INCREMENT } from './types';
+import produce from 'immer';
 
 type CounterStore = {
   number: number;
@@ -13,12 +14,14 @@ export type { CounterStore };
 
 const CountReducer = handleActions<CounterStore>(
   {
-    [INCREMENT]: (state) => ({
-      number: state.number + 1,
-    }),
-    [DECREMENT]: (state) => ({
-      number: state.number - 1,
-    }),
+    [INCREMENT]: (state) =>
+      produce(state, (draft) => {
+        draft.number += 1;
+      }),
+    [DECREMENT]: (state) =>
+      produce(state, (draft) => {
+        draft.number -= 1;
+      }),
   },
   countStore,
 );

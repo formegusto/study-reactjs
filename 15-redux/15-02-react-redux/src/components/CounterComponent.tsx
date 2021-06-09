@@ -1,8 +1,10 @@
 import React from 'react';
-import { ConnectedProps } from 'react-redux';
-import { CounterConnector } from '../store/counter/connector';
 
-type Props = ConnectedProps<typeof CounterConnector>;
+type Props = {
+  number: number;
+  increase: () => void;
+  decrease: () => void;
+};
 
 function CounterComponent(props: Props) {
   return (
