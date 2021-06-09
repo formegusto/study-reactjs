@@ -92,7 +92,7 @@ const store = createStore(RootReducer, applyMiddleware(loggerMiddleware));
 
 - redux 모듈의 applyMiddleware라는 함수를 이용한다.
 
-![16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled.png](16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/52296323/121386272-d157f280-c984-11eb-9c58-671e6207dca0.png)
 
 - 미들웨어에서는 여러 종류의 작업을 처리할 수 있다. 특정 조건에 따라 액션을 무시하게 할 수도 있고, 특정 조건에 따라 액션 정보를 가로채서 변경한 후 리듀서에게 전달해줄 수도 있다. 아니면 특정 액션에 기반하여 번거로운 액션을 여러 번 디스패치할 수도 있다.
 - 이러한 미들웨어 속성을 사용하여 네트워크 요청과 같은 비동기 작업을 관리하면 매우 유용하다.
