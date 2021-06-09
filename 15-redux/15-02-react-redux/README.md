@@ -1,6 +1,6 @@
 # React - Redux
 
-- yarn add react-redux @types/react-redux
+- yarn add redux react-redux @types/react-redux
 - 리액트 프로젝트에서 리덕스를 사용할 때, 가장 많이 사용하는 패턴은 프레젠테이션 컴포넌트와 컨테이너 컴포넌트를 분리하는 것이다.
   - 프레젠테이션 컴포넌트란 주로 상태 관리가 이루어지지 않고, 그저 props를 받아 와서 화면에 UI를 보여 주기만 하는 컴포넌트를 말한다.
   - 컨테이너 컴포넌트는 리덕스와 연동되어 있는 컴포넌트로, 리덕스로부터 상태를 받아 오기도 하고 리덕스 스토어에 액션을 디스패치 하기도 한다.
@@ -293,8 +293,8 @@ export default function todosReducer(
   }
 }
 ```
-
-![15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled.png](15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled.png)
+	
+![Untitled](https://user-images.githubusercontent.com/52296323/121322403-e4999c80-c949-11eb-9222-8ecc82171a8c.png)
 
 - Actions의 타입을 정의해줌으로서, 다음과 같이 제한된 액션 타입을 가질 수 있다.
 
@@ -310,7 +310,7 @@ const TodosConnector = connect(mapState, todosActionCreator);
 
 - 다음과 같이 Connector를 정의해주면 아래와 같은 타입을 얻을 수 있다.
 
-![15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled%201.png](15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/121322488-f8450300-c949-11eb-8c9f-77cf0aa090ae.png)
 
 - mapState가 반환해주는 TodosStore와 todosActionCreator가 자동으로 bindActionCreators로 감싸지며 ActionCreatorsMapObject<TodosAction>의 형태를 띄게 됐다.
 - dispatch 함수들이 타입에 안 붙는 단점이 존재하지만, [x:string] : ActionCreator<TodosAction> 같은 형태를 띄는 것이 맞는거 같긴하다. (후에 dispatchProps도 다룰 수 있는 방법을 찾으면 수정하도록 하겠다.)
@@ -463,7 +463,7 @@ export default function todosReducer(
 
 - ActionCreatorsMapObject 타입에 비해 정형화된 타입을 제공해준다.
 
-![15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled%202.png](15_Redux%20cd70a0bcdd7847f0b7ba1947189b53db/Untitled%202.png)
+![Untitled 2](https://user-images.githubusercontent.com/52296323/121322525-02670180-c94a-11eb-909d-908c92089470.png)
 
 ### 2. handleActions
 
