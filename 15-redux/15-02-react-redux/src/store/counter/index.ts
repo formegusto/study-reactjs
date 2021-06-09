@@ -1,4 +1,4 @@
-import { CounterActions } from './actions';
+import { handleActions } from 'redux-actions';
 import { DECREMENT, INCREMENT } from './types';
 
 type CounterStore = {
@@ -11,6 +11,20 @@ const countStore = {
 
 export type { CounterStore };
 
+const CountReducer = handleActions<CounterStore>(
+  {
+    [INCREMENT]: (state) => ({
+      number: state.number + 1,
+    }),
+    [DECREMENT]: (state) => ({
+      number: state.number - 1,
+    }),
+  },
+  countStore,
+);
+
+export default CountReducer;
+/*
 export default function CountReducer(
   state = countStore,
   action: CounterActions,
@@ -28,3 +42,4 @@ export default function CountReducer(
       return state;
   }
 }
+*/

@@ -1,4 +1,3 @@
-import { Action, ActionCreator } from 'redux';
 import { createAction } from 'redux-actions';
 import { CHANGE_INPUT, INSERT, REMOVE, Todo, TOGGLE } from './types';
 
@@ -8,6 +7,7 @@ export type Payload = {
   todo?: Todo;
 };
 
+/*
 export interface TodosAction
   extends Action<
     typeof CHANGE_INPUT | typeof INSERT | typeof TOGGLE | typeof REMOVE
@@ -16,6 +16,7 @@ export interface TodosAction
 }
 
 export interface TodosActionCreator extends ActionCreator<TodosAction> {}
+*/
 
 let id = 3;
 
@@ -33,7 +34,7 @@ const insert = createAction<Payload, string>(INSERT, (text: string) => ({
 const toggle = createAction<Payload, number>(TOGGLE, (id: number) => ({
   id,
 }));
-const remove = createAction<Payload, number>(TOGGLE, (id: number) => ({
+const remove = createAction<Payload, number>(REMOVE, (id: number) => ({
   id,
 }));
 
