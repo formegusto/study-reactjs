@@ -2,17 +2,16 @@ import React from "react";
 import { Post, User } from "../store/sample/types";
 
 type Props = {
-  loading: {
-    [key: string]: boolean;
-  };
+  loadingUsers: boolean;
+  loadingPost: boolean;
   users?: User[] | null;
   post?: Post | null;
 };
 
-function SampleComponent({ loading, users, post }: Props) {
+function SampleComponent({ loadingUsers, loadingPost, users, post }: Props) {
   return (
     <div>
-      {loading.GET_POST ? (
+      {loadingPost ? (
         <section>로딩중..</section>
       ) : (
         <section>
@@ -24,7 +23,7 @@ function SampleComponent({ loading, users, post }: Props) {
         </section>
       )}
       <hr />
-      {loading.GET_USERS ? (
+      {loadingUsers ? (
         <section>로딩중...</section>
       ) : (
         <section>

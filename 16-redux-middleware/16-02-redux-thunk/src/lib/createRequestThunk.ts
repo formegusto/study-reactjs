@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Dispatch } from "react";
+import { FINISH_LOADING, START_LOADING } from "../store/loading/types";
 
 export default function createRequestThunk<AR = any, P = any>(
   type: string,
@@ -10,6 +11,7 @@ export default function createRequestThunk<AR = any, P = any>(
 
   return (...params: P[]) =>
     async (dispatch: Dispatch<any>) => {
+      dispatch({ type: START_LOADING, payload: type });
       dispatch({ type });
       try {
         const response = await request(...params);
@@ -24,5 +26,6 @@ export default function createRequestThunk<AR = any, P = any>(
         });
         throw e;
       }
+      dispatch({ type: FINISH_LOADING, payload: type });
     };
 }
