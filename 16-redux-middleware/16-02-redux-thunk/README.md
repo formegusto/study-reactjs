@@ -63,7 +63,8 @@ const CounterActionCreators = {
 </div>
 ```
 
-![16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%201.png](16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/121555368-ea78a600-ca4d-11eb-9012-9ed6ede9dca3.png)
+
 
 - 처음에 디스패치되는 액션(increaseAsync)은 함수형태이고, 두 번째 액션(increase)은 객체 형태이다.
 - 이것이 중요한 이유는 아래 에러에서 확인할 수 있다.
@@ -240,7 +241,7 @@ const SampleConnector = connect(mapState, { getPost, getUsers });
 export default SampleConnector;
 ```
 
-![16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%202.png](16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%202.png)
+![Untitled 2](https://user-images.githubusercontent.com/52296323/121555445-fa908580-ca4d-11eb-8c03-1d9fd495d4a8.png)
 
 ### 5. 리팩토링
 
