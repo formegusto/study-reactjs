@@ -1,10 +1,10 @@
-export const GET_POST = "sample/GET_POST";
-export const GET_POST_SUCCESS = "sample/GET_POST_SUCCSS";
-export const GET_POST_FAILURE = "sample/GET_POST_FAILURE";
+import createActionType from "../../lib/createActionType";
 
-export const GET_USERS = "sample/GET_USERS";
-export const GET_USERS_SUCCESS = "sample/GET_USERS_SUCCESS";
-export const GET_USERS_FAILURE = "sample/GET_USERS_FAILURE";
+export const [GET_POST, GET_POST_SUCCESS, GET_POST_FAILURE] =
+  createActionType("sample/GET_POST");
+
+export const [GET_USERS, GET_USERS_SUCCESS, GET_USERS_FAILURE] =
+  createActionType("sample/GET_USERS");
 
 export interface Post {
   userId: number;
@@ -13,7 +13,7 @@ export interface Post {
   body: string;
 }
 
-export interface Users {
+export interface User {
   id: number;
   name: string;
   username: string;

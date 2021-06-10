@@ -4,9 +4,10 @@ import {
   GET_POST_FAILURE,
   GET_POST_SUCCESS,
   GET_USERS,
+  GET_USERS_FAILURE,
   GET_USERS_SUCCESS,
   Post,
-  Users,
+  User,
 } from "./types";
 
 type SampleStore = {
@@ -14,8 +15,8 @@ type SampleStore = {
     GET_POST: boolean;
     GET_USERS: boolean;
   };
-  post: Post | null;
-  users: Users | null;
+  post?: Post | null;
+  users?: User[] | null;
 };
 
 const sampleStore: SampleStore = {
@@ -27,7 +28,7 @@ const sampleStore: SampleStore = {
   users: null,
 };
 
-type Payload = Post | Users;
+type Payload = Post | User[];
 const SampleReducer = handleActions<SampleStore, Payload>(
   {
     [GET_POST]: (state) => ({
@@ -65,9 +66,9 @@ const SampleReducer = handleActions<SampleStore, Payload>(
         ...state.loading,
         GET_USERS: false,
       },
-      users: action.payload as Users,
+      users: action.payload as User[],
     }),
-    [GET_USERS_SUCCESS]: (state) => ({
+    [GET_USERS_FAILURE]: (state) => ({
       ...state,
       loading: {
         ...state.loading,

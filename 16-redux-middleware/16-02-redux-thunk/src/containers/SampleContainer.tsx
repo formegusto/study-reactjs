@@ -5,12 +5,13 @@ import SampleConnector from "../store/sample/connector";
 
 type Props = ConnectedProps<typeof SampleConnector>;
 
-function SampleContainer({ getPost }: Props) {
+function SampleContainer({ getPost, getUsers, loading, post, users }: Props) {
   useEffect(() => {
     getPost(1);
-  }, [getPost]);
+    getUsers();
+  }, [getPost, getUsers]);
 
-  return <SampleComponent />;
+  return <SampleComponent loading={loading} post={post} users={users} />;
 }
 
 export default SampleConnector(SampleContainer);

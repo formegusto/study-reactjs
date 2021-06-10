@@ -1,24 +1,16 @@
-import { Dispatch } from "react";
 import { Action } from "redux";
-import {
-  GET_POST,
-  GET_POST_FAILURE,
-  GET_POST_SUCCESS,
-  GET_USERS,
-  GET_USERS_SUCCESS,
-  Post,
-  Users,
-} from "./types";
+import { GET_POST, GET_USERS, Post, User } from "./types";
 import * as api from "../../lib/api";
+import createRequestThunk from "../../lib/createRequestThunk";
 
 export interface SampleAction<DT = any> extends Action {
   payload?: DT;
   error?: boolean;
 }
 
+/*
 export const getPost =
   (id: number) => async (dispatch: Dispatch<SampleAction<Post>>) => {
-    console.log("hi im getpost");
     dispatch({ type: GET_POST });
     try {
       const response = await api.getPost(id);
@@ -32,7 +24,7 @@ export const getPost =
     }
   };
 export const getUsers =
-  () => async (dispatch: Dispatch<SampleAction<Users[]>>) => {
+  () => async (dispatch: Dispatch<SampleAction<User[]>>) => {
     dispatch({ type: GET_USERS });
     try {
       const response = await api.getUsers();
@@ -49,3 +41,7 @@ export const getUsers =
       throw e;
     }
   };
+*/
+
+export const getPost = createRequestThunk<Post, number>(GET_POST, api.getPost);
+export const getUsers = createRequestThunk<User[]>(GET_USERS, api.getUsers);
