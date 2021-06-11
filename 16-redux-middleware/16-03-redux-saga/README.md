@@ -94,7 +94,7 @@ console.log(genRes);
 
 - for(...of...) 혹은 스프레드 문법에 사용할 수도 있다. 완전한 이터레이터이다. 하지만 제너테리엍 함수가 반환한 객체를 우리는 제너레이터 객체라고 부른다.
 
-![16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%203.png](16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%203.png)
+![Untitled 3](https://user-images.githubusercontent.com/52296323/121634927-63184a80-cac0-11eb-93e8-22b7d2e536a8.png)
 
 - 제너레이터가 처음 만들어지면 함수의 흐름은 멈춰 있는 상태이다. next()가 호출되면 다음 yield가 있는 곳 까지 호출하고, 다시 함수가 멈춘다.
 - 제너레이터 함수의 이러한 특성으로 함수를 도중에 멈출 수도 있고, 순차적으로 여러 값을 반환시킬 수도 있다.
@@ -249,7 +249,7 @@ sagaMiddleware.run(RootSaga);
 
 ### \* . TakeEvery와 TakeLatest 차이
 
-![16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%204.png](16_Redux%20Middleware%20da491ca5000947a989a7d1d42465adf0/Untitled%204.png)
+![Untitled 4](https://user-images.githubusercontent.com/52296323/121634950-6ca1b280-cac0-11eb-8c88-cc3ec6238e0a.png)
 
 - TakeEvery로 만들어진 INCREASE_ASYNC 는 발생한 액션들을 모두 처리했지만, TakeLatest로 만들어진 DECREASE_ASYNC는 마지막 한번의 액션만 처리 되었다.
 
