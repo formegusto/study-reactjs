@@ -7,48 +7,58 @@ import {
   GET_USERS,
   GET_USERS_FAILURE,
   GET_USERS_SUCCESS,
+  Post,
+  User,
 } from "./types";
 import * as api from "../../lib/api";
 import { getPost, getUsers } from "./actions";
+import { Action } from "redux";
+import { AxiosResponse } from "axios";
 
-function* getPostSaga(
-  action: ReturnType<typeof getPost>
-): Generator<any, any, any> {
-  yield put(startLoading(GET_POST));
+interface PostPayload extends Action {
+  payload: Post;
+  error?: boolean;
+}
+
+interface UsersPayload extends Action {
+  payload: User[];
+  error?: boolean;
+}
+
+function* getPostSaga(action: ReturnType<typeof getPost>) {
+  yield put<Action>(startLoading(GET_POST));
   try {
-    const post = yield call(api.getPost, action.payload);
-    yield put({
+    const post: AxiosResponse<Post> = yield call(api.getPost, action.payload);
+    yield put<PostPayload>({
       type: GET_POST_SUCCESS,
       payload: post.data,
     });
   } catch (e) {
-    yield put({
+    yield put<PostPayload>({
       type: GET_POST_FAILURE,
       payload: e,
       error: true,
     });
   }
-  yield put(finishLoading(GET_POST));
+  yield put<Action>(finishLoading(GET_POST));
 }
 
-function* getUsersSaga(
-  action: ReturnType<typeof getUsers>
-): Generator<any, any, any> {
-  yield put(startLoading(GET_USERS));
+function* getUsersSaga(action: ReturnType<typeof getUsers>) {
+  yield put<Action>(startLoading(GET_USERS));
   try {
-    const users = yield call(api.getUsers);
-    yield put({
+    const users: AxiosResponse<User[]> = yield call(api.getUsers);
+    yield put<UsersPayload>({
       type: GET_USERS_SUCCESS,
       payload: users.data,
     });
   } catch (e) {
-    yield put({
+    yield put<UsersPayload>({
       type: GET_USERS_FAILURE,
       payload: e,
       error: true,
     });
   }
-  yield finishLoading(GET_USERS);
+  yield put<Action>(finishLoading(GET_USERS));
 }
 
 export default function* sampleSaga() {
