@@ -1,30 +1,11 @@
-import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { finishLoading, startLoading } from "../loading/actions";
-import {
-  GET_POST,
-  GET_POST_FAILURE,
-  GET_POST_SUCCESS,
-  GET_USERS,
-  GET_USERS_FAILURE,
-  GET_USERS_SUCCESS,
-  Post,
-  User,
-} from "./types";
+import { takeLatest } from "@redux-saga/core/effects";
+import { GET_POST, GET_USERS, Post, User } from "./types";
 import * as api from "../../lib/api";
-import { getPost, getUsers } from "./actions";
-import { Action } from "redux";
-import { AxiosResponse } from "axios";
+import createRequestSaga from "../../lib/createRequestSaga";
 
-interface PostPayload extends Action {
-  payload: Post;
-  error?: boolean;
-}
-
-interface UsersPayload extends Action {
-  payload: User[];
-  error?: boolean;
-}
-
+const getPostSaga = createRequestSaga<number, Post>(GET_POST, api.getPost);
+const getUsersSaga = createRequestSaga<{}, User[]>(GET_USERS, api.getUsers);
+/*
 function* getPostSaga(action: ReturnType<typeof getPost>) {
   yield put<Action>(startLoading(GET_POST));
   try {
@@ -60,7 +41,7 @@ function* getUsersSaga(action: ReturnType<typeof getUsers>) {
   }
   yield put<Action>(finishLoading(GET_USERS));
 }
-
+*/
 export default function* sampleSaga() {
   yield takeLatest(GET_POST, getPostSaga);
   yield takeLatest(GET_USERS, getUsersSaga);
