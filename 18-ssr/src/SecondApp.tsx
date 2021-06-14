@@ -5,7 +5,7 @@ import Menu from "./atoms/Menu";
 import RedPage from "./pages/RedPage";
 import BluePage from "./pages/BluePage";
 
-function App() {
+function SecondApp() {
   return (
     <div>
       <Menu />
@@ -16,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default SecondApp;

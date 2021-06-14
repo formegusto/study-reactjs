@@ -4,8 +4,9 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
+const nodeExternals = require("webpack-node-externals");
 
-module.exports = {
+const config = {
   mode: "production", // 프로덕션 모드로 설정하여 최적화 옵션들을 활성화
   entry: paths.ssrIndex, // 엔트리 경로
   target: "node", // node 환경에서 실행될 것이라는 점을 명시
@@ -27,6 +28,7 @@ module.exports = {
               customize: require.resolve(
                 "babel-preset-react-app/webpack-overrides"
               ),
+              presets: [[require.resolve("babel-preset-react-app")]],
               plugins: [
                 [
                   require.resolve("babel-plugin-named-asset-import"),
@@ -49,18 +51,10 @@ module.exports = {
             test: cssRegex,
             exclude: cssModuleRegex,
             loader: require.resolve("css-loader"),
-            options: {
-              exportOnlyLocals: true,
-            },
           },
           {
             test: cssModuleRegex,
-            loader: require.resolve("css-loadse"),
-            options: {
-              modules: true,
-              exportOnlyLocals: true,
-              getLocalIdent: getCSSModuleLocalIdent,
-            },
+            loader: require.resolve("css-loader"),
           },
           {
             test: sassRegex,
@@ -111,4 +105,11 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    modules: ["node_modules"],
+    extensions: [".css", ".ts", ".tsx"],
+  },
+  externals: [nodeExternals()],
 };
+
+module.exports = config;
