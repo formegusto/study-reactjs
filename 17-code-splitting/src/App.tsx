@@ -1,10 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+const SplitMe = React.lazy(() => import("./SplitMe"));
+
 function App() {
+  const [visible, setVisible] = React.useState<boolean>(false);
+
   const onClick = () => {
-    import("./notify").then((result) => result.default());
+    setVisible(true);
   };
 
   return (
@@ -12,6 +16,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p onClick={onClick}>Hello React!</p>
+        <Suspense fallback={<div>Loading...</div>}>
+          {visible && <SplitMe />}
+        </Suspense>
       </header>
     </div>
   );
