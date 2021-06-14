@@ -10,7 +10,7 @@
 
 - CRA로 프로젝트를 빌드할 경우 최소 2 개 이상의 자바스크립트 파일이 생성되는데, CRA의 기본 웹팩 설정에는 SplitChunks라는 기능이 적용되어 node_modules에서 불러온 파일, 일정 크기 이상의 파일, 여러 파일 간에 공유된 파일을 자동으로 따로 분리시켜서 캐싱의 효과를 제대로 누릴 수 있게 해준다.
 
-![17_Code%20Splitting%20677a542dad6341fcb845f76745e0d647/Untitled.png](17_Code%20Splitting%20677a542dad6341fcb845f76745e0d647/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/52296323/121828022-39963380-ccf9-11eb-86d8-a805a99e0296.png)
 
 - 파일 이름에는 모두 해시값이 포함되어 있다.
 - 2로 시작하는 파일에는 React, ReactDOM 등 node_modules에서 불러온 라이브러리 관련 코드가 들어있다.
@@ -43,7 +43,7 @@
 
 > App 컴포넌트를 수정하고 다시 빌드해보자
 
-![17_Code%20Splitting%20677a542dad6341fcb845f76745e0d647/Untitled%201.png](17_Code%20Splitting%20677a542dad6341fcb845f76745e0d647/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/121828030-4024ab00-ccf9-11eb-8c19-b8f8c2139947.png)
 
 - node_modules 불러온 라이브러리가 들어 있던 2로 시작하는 파일의 이름은 바뀌지 않았고, 작성하는 컴포넌트 관련 코드가 들어 있던 main으로 시작하는 파일의 이름은 바뀐 것을 확인할 수 있다.
 
