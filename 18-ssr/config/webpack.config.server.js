@@ -1,10 +1,16 @@
 const paths = require("./paths");
+const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
+const nodeExternals = require("webpack-node-externals");
+const webpack = require("webpack");
+const getClientEnvironment = require("./env");
+
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
-const nodeExternals = require("webpack-node-externals");
+
+const publicUrl = paths.publicUrlOrPath.slice(0, -1);
+const env = getClientEnvironment(publicUrl);
 
 const config = {
   mode: "production", // 프로덕션 모드로 설정하여 최적화 옵션들을 활성화
@@ -20,6 +26,7 @@ const config = {
     rules: [
       {
         oneOf: [
+          // 자바스크립트를 위한 처리
           {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             include: paths.appSrc,
@@ -47,15 +54,18 @@ const config = {
               compact: false,
             },
           },
+          // CSS 를 위한 처리
           {
             test: cssRegex,
             exclude: cssModuleRegex,
             loader: require.resolve("css-loader"),
           },
+          // CSS Module을 위한 처리
           {
             test: cssModuleRegex,
             loader: require.resolve("css-loader"),
           },
+          // Sass를 위한 처리
           {
             test: sassRegex,
             exclude: sassModuleRegex,
@@ -69,6 +79,7 @@ const config = {
               require.resolve("sass-loader"),
             ],
           },
+          // Sass + CSS Module을 위한 처리
           {
             test: sassRegex,
             exclude: sassModuleRegex,
@@ -84,6 +95,7 @@ const config = {
               require.resolve("sass-loader"),
             ],
           },
+          // url-loader를 위한 설정
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve("url-loader"),
@@ -93,6 +105,8 @@ const config = {
               name: "static/media/[name].[hash:8].[ext]",
             },
           },
+          // 위에서 설정된 확장자를 제외한 파일들은
+          // file-loader를 사용한다.
           {
             loader: require.resolve("file-loader"),
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
@@ -109,7 +123,7 @@ const config = {
     modules: ["node_modules"],
     extensions: [".css", ".ts", ".tsx"],
   },
-  externals: [nodeExternals()],
+  externals: [nodeExternals(), new webpack.DefinePlugin(env.stringified)], // 환경변수를 주입해준다.],
 };
 
 module.exports = config;
