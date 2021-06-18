@@ -3,10 +3,16 @@ import {
   GET_USERS_FAILURE,
   GET_USERS_PENDING,
   GET_USERS_SUCCESS,
+  User,
 } from "./types";
 import * as api from "../../api/users";
+import { Action } from "redux";
 
-export const getUsers = () => async (dispatch: Dispatch<any>) => {
+interface Payload extends Action {
+  payload?: User[];
+}
+
+export const getUsers = () => async (dispatch: Dispatch<Payload>) => {
   dispatch({ type: GET_USERS_PENDING });
   try {
     const response = await api.getUsers();

@@ -3,11 +3,12 @@ import {
   GET_USERS_FAILURE,
   GET_USERS_PENDING,
   GET_USERS_SUCCESS,
+  User,
 } from "./types";
 
 export type UserStore = {
-  users: any | null;
-  user: any | null;
+  users: User[] | null;
+  user: User | null;
   loading: {
     users: boolean;
     user: boolean;
@@ -19,7 +20,7 @@ export type UserStore = {
 };
 
 const userStore: UserStore = {
-  users: null,
+  users: [],
   user: null,
   loading: {
     users: false,
@@ -31,7 +32,7 @@ const userStore: UserStore = {
   },
 };
 
-const UserReducer = handleActions<UserStore>(
+const UserReducer = handleActions<UserStore, any>(
   {
     [GET_USERS_PENDING]: (state, action) => ({
       ...state,
@@ -58,6 +59,7 @@ const UserReducer = handleActions<UserStore>(
         ...state.error,
         users: true,
       },
+      users: action.payload,
     }),
   },
   userStore
