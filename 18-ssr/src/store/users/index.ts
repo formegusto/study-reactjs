@@ -46,7 +46,7 @@ const UserReducer = handleActions<UserStore>(
         ...state.loading,
         users: false,
       },
-      users: action.payload.users,
+      users: action.payload,
     }),
     [GET_USERS_FAILURE]: (state, action) => ({
       ...state,

@@ -1,3 +1,10 @@
+#!/usr/bin/env node
+import { program } from "commander";
+import fs from "fs";
+import path from "path";
+import inquirer from "inquirer";
+import chalk from "chalk";
+
 const pageTemplate: TemplateGenerator = (containerName) => `
     import React from 'react';
     import ${containerName}Container from '../containers/${containerName}Container';
@@ -14,3 +21,5 @@ const containerTemplate: TemplateGenerator = (componentName) => `
 
 const componentTemplate: TemplateGenerator = (componentName) =>
   `<>${componentName}</>`;
+
+program.command;
