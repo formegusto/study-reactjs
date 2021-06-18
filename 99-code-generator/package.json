@@ -1,0 +1,17 @@
+{
+  "name": "code-generator",
+  "version": "1.0.0",
+  "description": "code-generator",
+  "main": "index.js",
+  "author": "formegusto",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start:script": "node ./dist"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0",
+    "inquirer": "^8.0.0"
+  }
+}

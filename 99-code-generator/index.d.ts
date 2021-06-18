@@ -1,0 +1,1 @@
+type TemplateGenerator = (string) => string;
