@@ -121,7 +121,7 @@ const config = {
   },
   resolve: {
     modules: ["node_modules"],
-    extensions: [".css", ".ts", ".tsx"],
+    extensions: [".css", ".ts", ".tsx", ".js", ".mjs"],
   },
   externals: [nodeExternals(), new webpack.DefinePlugin(env.stringified)], // 환경변수를 주입해준다.],
 };

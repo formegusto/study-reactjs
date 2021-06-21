@@ -9,7 +9,11 @@ import RootReducer from "./store";
 import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
-const store = createStore(RootReducer, applyMiddleware(ReduxThunk));
+const store = createStore(
+  RootReducer,
+  (window as any).__PRELOADED_STATE__,
+  applyMiddleware(ReduxThunk)
+);
 
 ReactDOM.render(
   <Provider store={store}>
