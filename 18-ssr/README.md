@@ -283,18 +283,17 @@
   - 추가적으로 context 라는 props도 넣어 주었는데, 이 값을 사용하여 나중에 렌더링한 컴포넌트에 따라 HTTP 상태 코드를 설정해줄 수 있다.
 
 - 빌드
-
-  ![18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled.png](18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/52296323/122733433-21ee1a80-d2b8-11eb-8e6e-ee70d4bceb31.png)
 
   - 우리가 사용한 라이브러리, 제작한 컴포넌트들이 묶이는 것을 볼 수 있다.
 
 - 우리가 현재 브라우저에 보이는 데이터가 서버에서 렌더링된 것인지, 클라이언트에서 렌더링된 것인지 분간하기 어려울 것이다. 서버 사이드 렌더링이 정말 제대로 이루어졌는지 확인하려면 개발자 도구의 Network 탭을 확인하면 된다.
 
-  ![18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%201.png](18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/122733484-2dd9dc80-d2b8-11eb-8a58-79165c0fa37f.png)
 
   Client Side Rendering
 
-  ![18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%202.png](18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%202.png)
+![Untitled 2](https://user-images.githubusercontent.com/52296323/122733507-3500ea80-d2b8-11eb-9b7f-46bb72f013b0.png)
 
   Server Side Rendering
 
@@ -555,7 +554,7 @@ const store = createStore(
 
 - 해당 **PRELOAD_STATE**는 전역 객체에 박히기 때문에 index.tsx에서 다음과 같이 사용해주면 된다.
 
-![18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%203.png](18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%203.png)
+![Untitled 3](https://user-images.githubusercontent.com/52296323/122733554-40541600-d2b8-11eb-8ac9-376e1a50a95e.png)
 
 ## 5. redux-saga 서버 사이드 렌더링에 적용하기
 
@@ -904,8 +903,8 @@ export default App;
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   reportWebVitals();
   ```
-
-![18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%204.png](18_%E1%84%89%E1%85%A5%E1%84%87%E1%85%A5%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%83%E1%85%B3%20%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%A5%E1%84%85%E1%85%B5%E1%86%BC%20c3df92abd7204452ba678eada8c1a9a3/Untitled%204.png)
+  
+![Untitled 4](https://user-images.githubusercontent.com/52296323/122733611-4d710500-d2b8-11eb-9b5f-e55889ef4bf3.png)
 
 # 5. 서버 사이드 렌더링의 환경 구축을 위한 대안
 
