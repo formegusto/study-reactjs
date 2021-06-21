@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { RootStore } from "..";
-import { getUsers } from "./actions";
+import * as actions from "./actions";
 
 const mapState = ({ users }: RootStore) => ({ ...users });
 
-const UserConnector = connect(mapState, { getUsers });
+const UserConnector = connect(mapState, { ...actions });
 export default UserConnector;

@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import {
+  GET_USER,
   GET_USERS_FAILURE,
   GET_USERS_PENDING,
   GET_USERS_SUCCESS,
@@ -7,12 +8,14 @@ import {
 } from "./types";
 import * as api from "../../api/users";
 import { Action } from "redux";
+import { createAction } from "redux-actions";
 
 interface Payload extends Action {
   payload?: User[];
 }
 
 export const getUsers = () => async (dispatch: Dispatch<Payload>) => {
+  console.log("call");
   dispatch({ type: GET_USERS_PENDING });
   try {
     const response = await api.getUsers();
@@ -22,3 +25,5 @@ export const getUsers = () => async (dispatch: Dispatch<Payload>) => {
     throw e;
   }
 };
+
+export const getUser = createAction(GET_USER);

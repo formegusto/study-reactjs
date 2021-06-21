@@ -1,8 +1,11 @@
 import { handleActions } from "redux-actions";
 import {
+  GET_USER,
   GET_USERS_FAILURE,
   GET_USERS_PENDING,
   GET_USERS_SUCCESS,
+  GET_USER_FAILURE,
+  GET_USER_SUCCESS,
   User,
 } from "./types";
 
@@ -20,7 +23,7 @@ export type UserStore = {
 };
 
 const userStore: UserStore = {
-  users: [],
+  users: null,
   user: null,
   loading: {
     users: false,
@@ -60,6 +63,32 @@ const UserReducer = handleActions<UserStore, any>(
         users: true,
       },
       users: action.payload,
+    }),
+    [GET_USER]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        user: true,
+      },
+    }),
+    [GET_USER_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        user: false,
+      },
+      user: action.payload,
+    }),
+    [GET_USER_FAILURE]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        user: false,
+      },
+      error: {
+        ...state.error,
+        user: true,
+      },
     }),
   },
   userStore
