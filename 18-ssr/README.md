@@ -283,6 +283,7 @@
   - 추가적으로 context 라는 props도 넣어 주었는데, 이 값을 사용하여 나중에 렌더링한 컴포넌트에 따라 HTTP 상태 코드를 설정해줄 수 있다.
 
 - 빌드
+
 ![Untitled](https://user-images.githubusercontent.com/52296323/122733433-21ee1a80-d2b8-11eb-8e6e-ee70d4bceb31.png)
 
   - 우리가 사용한 라이브러리, 제작한 컴포넌트들이 묶이는 것을 볼 수 있다.
