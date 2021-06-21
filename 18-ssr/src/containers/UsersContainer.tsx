@@ -15,7 +15,7 @@ function UsersContainer({ getUsers, users }: Props) {
   return (
     <>
       <UsersComponent users={users} />
-      <Preloader resolve={getUsers} />
+      {/* <Preloader resolve={getUsers} /> */}
     </>
   );
 }

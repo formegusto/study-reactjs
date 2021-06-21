@@ -15,7 +15,6 @@ interface Payload extends Action {
 }
 
 export const getUsers = () => async (dispatch: Dispatch<Payload>) => {
-  console.log("call");
   dispatch({ type: GET_USERS_PENDING });
   try {
     const response = await api.getUsers();
