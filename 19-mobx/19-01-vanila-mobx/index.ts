@@ -1,4 +1,11 @@
-import { action, autorun, makeObservable, observable, reaction } from "mobx";
+import {
+  action,
+  autorun,
+  makeAutoObservable,
+  makeObservable,
+  observable,
+  reaction,
+} from "mobx";
 
 class Counter {
   number: number;
@@ -18,12 +25,10 @@ class Counter {
     this.number = number;
 
     autorun(() => {
-      console.log(this.number);
       document.querySelector(".counter")!.textContent = this.number.toString();
     });
   }
 
-  /* */
   increase = () => {
     this.number++;
   };
@@ -34,3 +39,34 @@ class Counter {
 }
 
 new Counter(0);
+
+function FactoryCounter(number: number) {
+  return makeAutoObservable({
+    number,
+    increase() {
+      this.number++;
+    },
+    decrease() {
+      this.number--;
+    },
+  });
+}
+
+function factoryRender() {
+  const factory = FactoryCounter(0);
+  console.log(factory);
+
+  document.querySelector(".f-counter")!.textContent = factory.number.toString();
+  document
+    .querySelector(".f-inc-btn")!
+    .addEventListener("click", factory.increase.bind(factory));
+  document
+    .querySelector(".f-dec-btn")!
+    .addEventListener("click", factory.decrease.bind(factory));
+
+  autorun(() => {
+    document.querySelector(".f-counter")!.textContent =
+      factory.number.toString();
+  });
+}
+factoryRender();
