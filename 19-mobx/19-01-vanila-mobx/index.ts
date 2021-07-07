@@ -23,6 +23,7 @@ class Counter {
     });
   }
 
+  /* */
   increase = () => {
     this.number++;
   };
