@@ -70,3 +70,38 @@ function factoryRender() {
   });
 }
 factoryRender();
+
+interface CounterType extends Object {
+  number: number;
+  increase: () => void;
+  decrease: () => void;
+}
+
+function observeRender() {
+  const observeObject = {
+    number: 0,
+    increase() {
+      this.number++;
+    },
+    decrease() {
+      this.number--;
+    },
+  };
+  const observeCounter = observable<CounterType>(observeObject);
+
+  document.querySelector(".o-counter")!.textContent =
+    observeObject.number.toString();
+  document
+    .querySelector(".o-inc-btn")!
+    .addEventListener("click", observeCounter.increase.bind(observeCounter));
+  document
+    .querySelector(".o-dec-btn")!
+    .addEventListener("click", observeCounter.decrease.bind(observeCounter));
+
+  autorun(() => {
+    console.log(observeCounter);
+    document.querySelector(".o-counter")!.textContent =
+      observeCounter.number.toString();
+  });
+}
+observeRender();
