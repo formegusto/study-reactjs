@@ -9,6 +9,8 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.21.1",
     "mobx": "^6.3.2"
   },
   "devDependencies": {

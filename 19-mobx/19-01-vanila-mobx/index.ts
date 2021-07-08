@@ -1,107 +1,78 @@
-import {
-  action,
-  autorun,
-  makeAutoObservable,
-  makeObservable,
-  observable,
-  reaction,
-} from "mobx";
+import axios from "axios";
+import { flow, makeAutoObservable, autorun } from "mobx";
+import { ResponseError, User } from "./types";
 
-class Counter {
-  number: number;
+const APIURI = "https://jsonplaceholder.typicode.com";
 
-  constructor(number: number) {
-    makeObservable(this, {
-      number: observable,
-      increase: action,
-      decrease: action,
-    });
-    document
-      .querySelector(".inc-btn")!
-      .addEventListener("click", this.increase);
-    document
-      .querySelector(".dec-btn")!
-      .addEventListener("click", this.decrease);
-    this.number = number;
+class Store {
+  users: User[] = [];
+  user: User | null = null;
+  loading = false;
+  error: ResponseError = {
+    error: false,
+    msg: "",
+  };
 
-    autorun(() => {
-      document.querySelector(".counter")!.textContent = this.number.toString();
+  constructor() {
+    makeAutoObservable(this, {
+      fetchUsers: flow,
+      fetchUser: flow,
     });
   }
 
-  increase = () => {
-    this.number++;
-  };
+  requestError(e: any) {
+    this.error = {
+      error: true,
+      msg: `${e.response.status}:${e.response.statusText}`,
+    };
+  }
 
-  decrease = () => {
-    this.number--;
-  };
+  *fetchUsers(): any {
+    try {
+      const response = yield axios.get<User[]>(`${APIURI}/users`);
+
+      this.users = response.data;
+    } catch (e) {
+      this.requestError(e);
+    }
+  }
+
+  *fetchUser(id: number): any {
+    try {
+      const response = yield axios.get<User>(`${APIURI}/users/${id}`);
+
+      this.user = response.data;
+    } catch (e) {
+      this.requestError(e);
+    }
+  }
 }
 
-new Counter(0);
+const store = new Store();
+const usersEl = document.querySelector(".users");
+const userEl = document.querySelector(".user");
 
-function FactoryCounter(number: number) {
-  return makeAutoObservable({
-    number,
-    increase() {
-      this.number++;
-    },
-    decrease() {
-      this.number--;
-    },
+/* Success Catch */
+autorun(() => {
+  console.log(store.users);
+
+  const users = store.users;
+  users.map((user, idx) => {
+    const li = document.createElement("li");
+    li.classList.add("user");
+    li.classList.add(`${user.id}`);
+
+    li.textContent = `${user.name}(${user.email})`;
+    li.addEventListener("click", () => store.fetchUser(user.id));
+
+    usersEl?.appendChild(li);
   });
-}
-
-function factoryRender() {
-  const factory = FactoryCounter(0);
-  console.log(factory);
-
-  document.querySelector(".f-counter")!.textContent = factory.number.toString();
-  document
-    .querySelector(".f-inc-btn")!
-    .addEventListener("click", factory.increase.bind(factory));
-  document
-    .querySelector(".f-dec-btn")!
-    .addEventListener("click", factory.decrease.bind(factory));
-
-  autorun(() => {
-    document.querySelector(".f-counter")!.textContent =
-      factory.number.toString();
-  });
-}
-factoryRender();
-
-interface CounterType extends Object {
-  number: number;
-  increase: () => void;
-  decrease: () => void;
-}
-
-function observeRender() {
-  const observeObject = {
-    number: 0,
-    increase() {
-      this.number++;
-    },
-    decrease() {
-      this.number--;
-    },
-  };
-  const observeCounter = observable<CounterType>(observeObject);
-
-  document.querySelector(".o-counter")!.textContent =
-    observeObject.number.toString();
-  document
-    .querySelector(".o-inc-btn")!
-    .addEventListener("click", observeCounter.increase.bind(observeCounter));
-  document
-    .querySelector(".o-dec-btn")!
-    .addEventListener("click", observeCounter.decrease.bind(observeCounter));
-
-  autorun(() => {
-    console.log(observeCounter);
-    document.querySelector(".o-counter")!.textContent =
-      observeCounter.number.toString();
-  });
-}
-observeRender();
+});
+autorun(() => {
+  userEl!.textContent = JSON.stringify(store.user, null, 2);
+});
+/* Error Catch */
+autorun(() => {
+  console.log(store.error);
+});
+store.fetchUsers();
