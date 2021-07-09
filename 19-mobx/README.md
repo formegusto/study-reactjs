@@ -2,8 +2,6 @@
 
 [README · MobX](https://mobx.js.org/README.html)
 
-# 1. MobX
-
 > Simple, scalable state management.
 
 > Anything that can be derived from the application state, should be. Automatically.
