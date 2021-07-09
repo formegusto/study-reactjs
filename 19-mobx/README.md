@@ -11,7 +11,7 @@
 - Mobx는 간단함과 확장 가능성을 가진 상태 관리 라이브러리의 방향성을 추구하는 상태 관리 라이브러리 이다. V4, V5 부터 현재는 V6 (2021.7.7)로 열심히 사랑받고 있는 상태 관리 라이브러리 중 하나이다.
 - 해당 Study는 V6로 진행할 것 이다.
 
-![19_MobX%202fe7245acf854aed9a10ea94bfebed99/Untitled.png](19_MobX%202fe7245acf854aed9a10ea94bfebed99/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/52296323/125020869-8ed52300-e0b4-11eb-80d2-ad5807de4795.png)
 
 - Mobx는 3가지의 개념으로 나누어진다.
   1. State
