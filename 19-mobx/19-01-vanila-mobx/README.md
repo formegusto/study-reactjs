@@ -1,4 +1,4 @@
-# 2. Vanila Mobx With Mobx Core
+# Vanila Mobx With Mobx Core
 
 ## 1. Observable State
 
