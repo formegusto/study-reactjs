@@ -3,14 +3,20 @@ import { useEffect } from "react";
 import TimerComponent from "../components/TimerComponent";
 import TimerStore from "../store/timer/TimerStore";
 
-function TimerContainer({ timer }: { timer?: TimerStore }) {
+function TimerContainer({ number, increaseTimer }: TimerStore) {
   useEffect(() => {
     setInterval(() => {
-      timer!.increaseTimer();
+      increaseTimer();
     }, 1000);
-  }, [timer]);
+  }, [increaseTimer]);
 
-  return <TimerComponent number={timer!.number} />;
+  return <TimerComponent number={number} />;
 }
 
-export default observer(TimerContainer);
+type Props = {
+  timer: TimerStore;
+};
+
+export default observer<Props>(({ timer }) => (
+  <TimerContainer number={timer.number} increaseTimer={timer.increaseTimer} />
+));

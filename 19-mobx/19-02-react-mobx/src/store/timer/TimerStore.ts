@@ -1,10 +1,12 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 
 class TimerStore {
   number: number;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      increaseTimer: action.bound,
+    });
     this.number = 0;
   }
 
