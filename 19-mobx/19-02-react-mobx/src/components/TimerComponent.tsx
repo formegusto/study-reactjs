@@ -1,8 +1,6 @@
-type Props = {
-  number: number;
-};
+import TimerStore from "../store/timer/TimerStore";
 
-function TimerComponent(props: Props) {
+function TimerComponent(props: TimerStore) {
   return <h1>{props.number} 초</h1>;
 }
 
