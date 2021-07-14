@@ -118,7 +118,7 @@ function App() {
 }
 ```
 
-Untitled 1.png![Untitled 1](https://user-images.githubusercontent.com/52296323/125543226-42f7d38e-3974-4211-8a64-7c2f0b8dc973.png)
+![Untitled 1](https://user-images.githubusercontent.com/52296323/125543226-42f7d38e-3974-4211-8a64-7c2f0b8dc973.png)
 
 - 스스로 정의를 내려 본건데, 위의 코드는 number의 변화는 관찰되지만, 정작 re-render는 일어나지 않는다. 위의 observer의 매개변수 코드가 잘 못된 것인데, 위와 같이 스토어 자체가 아닌, 부분적 프로퍼티로 받을 경우, makeAutoObservable로 감싸진 객체가 아닌, observable 자체의 값이 전달되기 때문에 제대로 동작하지 않는다.
 
