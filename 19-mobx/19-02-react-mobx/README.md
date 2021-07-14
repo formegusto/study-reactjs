@@ -1,7 +1,5 @@
 # MobX And React
 
----
-
 ## 1. React integration
 
 ```tsx
@@ -120,7 +118,7 @@ function App() {
 }
 ```
 
-![19_MobX%202fe7245acf854aed9a10ea94bfebed99/Untitled%201.png](19_MobX%202fe7245acf854aed9a10ea94bfebed99/Untitled%201.png)
+Untitled 1.png![Untitled 1](https://user-images.githubusercontent.com/52296323/125543226-42f7d38e-3974-4211-8a64-7c2f0b8dc973.png)
 
 - 스스로 정의를 내려 본건데, 위의 코드는 number의 변화는 관찰되지만, 정작 re-render는 일어나지 않는다. 위의 observer의 매개변수 코드가 잘 못된 것인데, 위와 같이 스토어 자체가 아닌, 부분적 프로퍼티로 받을 경우, makeAutoObservable로 감싸진 객체가 아닌, observable 자체의 값이 전달되기 때문에 제대로 동작하지 않는다.
 
@@ -435,8 +433,6 @@ function TimerContainer({ timer }: Props) {
 ```
 
 # React Optimizations
-
----
 
 - MobX는 매우 빠르다고 한다. 종종 Redux보다 빠르다고 한다. 하지만 빠르게 하기 위한 Tip들을 준비하셨다. 그러면서 한 가지 프론트엔드 개발자를 위한 충고를 적어 주셨다. 좋은 패턴들은 우리의 어플리케이션을 충분히 빠르게 해줄 것이고, 여기서 그것들을 소개할 것이다.
 
