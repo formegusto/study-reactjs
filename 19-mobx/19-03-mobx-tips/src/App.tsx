@@ -1,10 +1,18 @@
-import CombineContainer from "./containers/CombineContainer";
-import RootStore from "./store";
+import { Provider } from "mobx-react";
+import InputContainer from "./containers/InputContainer";
+import InputStore from "./store/input";
 
 function App() {
-  const store = new RootStore();
+  const inputStore = new InputStore({
+    name: "",
+    nickname: "",
+  });
 
-  return <CombineContainer store={store} />;
+  return (
+    <Provider inputStore={inputStore}>
+      <InputContainer />
+    </Provider>
+  );
 }
 
 export default App;
