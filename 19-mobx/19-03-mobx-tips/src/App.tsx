@@ -1,14 +1,16 @@
-import InjectTestPage from "./pages/InjectTestPage";
-// import InputContainer from "./containers/InputContainer";
-// import InputStore from "./store/input";
+import MessageContainer from "./containers/MessageContainer";
+import Message from "./store/message";
 
 function App() {
-  // const inputStore = new InputStore({
-  //   name: "",
-  //   nickname: "",
-  // });
+  const MessageStore = new Message(
+    "메세지다.",
+    {
+      name: "th",
+    },
+    ["mk", "sj"]
+  );
 
-  return <InjectTestPage />;
+  return <MessageContainer store={MessageStore} />;
 }
 
 export default App;

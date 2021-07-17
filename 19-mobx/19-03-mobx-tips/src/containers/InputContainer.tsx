@@ -11,7 +11,11 @@ function InputContainer({ store }: Props) {
   return (
     <>
       <h1>{store?.input["name"]}</h1>
-      <InputComponent input={store!.input} changeInput={store!.changeInput} />
+      {/* <InputComponent input={store!.input} changeInput={store!.changeInput} /> */}
+      <InputComponent
+        name={store!.input.name}
+        changeInput={store!.changeInput}
+      />
     </>
   );
 }

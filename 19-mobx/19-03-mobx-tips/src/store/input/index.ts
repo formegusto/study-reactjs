@@ -16,14 +16,14 @@ class InputStore {
   }
 
   changeInput(e: React.ChangeEvent<any>) {
-    console.log(e.target.name);
-    console.log(e.target.value);
-    const copy = this.input;
-    this.input = {
-      ...copy,
-      [e.target.name]: e.target.value,
-    };
-    // this.input[e.target.name] = e.target.value;
+    // console.log(e.target.name);
+    // console.log(e.target.value);
+    // const copy = this.input;
+    // this.input = {
+    //   ...copy,
+    //   [e.target.name]: e.target.value,
+    // };
+    this.input[e.target.name] = e.target.value;
   }
 }
 
