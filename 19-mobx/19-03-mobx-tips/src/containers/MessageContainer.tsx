@@ -12,7 +12,7 @@ function MessageContainer({ store }: Props) {
       title={store.title}
       authorName={store.author.name}
       changeAuthor={store.changeAuthor}
-      changeAuthorName={store.changeAuthorName}
+      //   changeAuthorName={store.changeAuthorName}
     />
   );
 }
