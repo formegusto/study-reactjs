@@ -1,249 +1,323 @@
-## 1. Defining data stores
+## 3. Understanding reactivity
 
-- 해당 챕터는 거대한 구조의 프로젝트에서 MobX를 사용할 때 유용한 방법에 대해서 소개한다.
-- 해당 챕터는 기존 코드베이스 또는 MVC 패턴에서 잘 동작하는 MobX를 사용할 것이다. 이 외에도 mobx-state-tree, mobx-keystone 등이 존재하는데, mobx 공식문서에서 매우 멋진 기능을 제공한다고 소개하고 있다. 마지막 즈음에 한번 다뤄보는 것으로 하자.
+- MobX는 반응에 최적화되어 있기 때문에 90% 정도의 상황에서는 그냥 MobX의 반응을 따라가는 것이 좋다. 그래서 MobX가 어떻게 반응을 하는지 이해하는 것이 중요하다.
+- 읽는 것은 object의 property를 참조해야 한다. dotting into, eq [user.name](http://user.name) or user['name'] 같이 접근하는 것을 말한다.
+- 추적 함수로는 computed를 사용한다.
+- "during" 이라는 개념이 등장하는데 오직 읽고 있는 observable value만 추척된다. 하지만 함수 등에서 새로 생성한 값에 대해서는 추적하지 않는다.
 
-### 1. Stores
+### 1. MobX tracks property access, not values
 
-- store는 flux architecture에서 찾을 수 있고, MVC의 Controller와 비교할 수 있다. store의 주된 역할은 논리 및 상태를 프론트 엔드 및 백엔드에서 모두 사용할 수 있는 독립 실행형 테스트로서 동작하는 것이다.
-- 대부분의 어플리케이션에는 도메인 상태용 저장소와 UI 상태용 저장소 등 최소 2개 이상의 저장소가 있어야 한다. 이 둘을 분리하면 도메인을 전체적으로 재사용하고, 테스트할 수 있으며, 다른 어플리케이션에서도 재사용할 수 있다는 이점이 있다.
-
-### 2. domain stores
-
-- 우리의 어플리케이션은 하나 혹은 여러개의 domain store로 구성이 될 것 이다. 이 저장소는 우리 어프리케이션의 모든 것들을 저장하고 있다.
-- single domain store는 오직 하나의 컨셉만을 우리 어플리케이션에 반영한다. 이는 종종 multiple domain objects를 안에 두어 tree 구조를 형성하기도 한다.
-
-### 3. Domain objects
-
-- 각 각의 도메인 객체는 고유한 클래스 또는 생성자 함수를 사용해서 표현해야 한다. 이렇게 만들어진 도메인 객체는 다른 저장소의 도메인 객체를 직접 참조할 수 있다.
-- Redux와 같은 Flux 아키텍처와 달리 MobX를 사용하면 데이터를 정상화할 필요가 없고, 어플리케이션의 기본적으로 복잡한 부분인 규칙, 작업 및 사용자 인터페이스를 훨씬 간단하게 구축할 수 있다.
-- 독립형 도메인 개념을 보다 쉽게 사용할 수 있게 해주고, 어플리케이션에 필요한 상황 인식의 양을 줄일 수 있다. 생성자 함수를 사용하여 생성된 개체는 관찰 가능한 속성 및 메서드, 관찰 불가능한 속성 및 메서드를 자유롭게 혼합할 수 있다.
-- 다음과 같은 형태가 가능하다는 뜻이다.
+- MobX는 프로퍼티를 추적한다. 값을 추적하는 개념이 아니다.
 
 ```tsx
-class UserStore {
-  user: User | null;
+type Author = {
+  name: string;
+};
 
-  constructor() {
+class Message {
+  title: string;
+  author: Author;
+  likes: string[];
+  constructor(title: string, author: Author, likes: string[]) {
     makeAutoObservable(this);
-    this.user = null;
+    this.title = title;
+    this.author = author;
+    this.likes = likes;
   }
 
-  *fetchUser(id: number): Generator {
-    try {
-      const user = yield api.fetchUser(id);
-
-      console.log(user);
-
-      this.user = (user as AxiosResponse<User>).data;
-    } catch (e) {
-      console.error(e.response);
-    }
-  }
-}
-
-export default UserStore;
-```
-
-```tsx
-class TodosStore {
-  todos: Todo[];
-  userStore: UserStore;
-
-  constructor() {
-    makeAutoObservable(this);
-    this.userStore = new UserStore();
-    this.todos = [];
+  updateTitle(title: string) {
+    this.title = title;
   }
 
-  fetchUser(idx: number) {
-    this.userStore.fetchUser(this.todos[idx].userId);
-  }
-
-  *fetchTodos(): Generator {
-    try {
-      const res = yield api.fetchTodos();
-
-      console.log(res);
-      this.todos = (res as AxiosResponse<Todo[]>).data;
-    } catch (e) {
-      console.error(e.response);
-    }
-  }
-}
-
-export default TodosStore;
-```
-
-- Store 들간의 자유롭게 조합이 가능해진다.
-
-### 4. UI stores
-
-- ui-store는 종종 매우 특별한 형태로 우리 어플리케이션에서 사용된다.
-- UI Store는 아래와 같은 상황에서 사용된다.
-  1. 세션 정보
-  2. 어플리케이션이 로드 되는 동안의 정보
-  3. 백엔드에서 저장되지 않는 정보
-  4. 전역적인 UI 효과
-     1. 창 치수, 접근성 정보, 현재 언어, 현재 활성화된 테마
-  5. 서로 관련 없는 여러 구성 요소에 영향을 미치는 인터랙션
-     1. 현재 선택, 도구 모음 등의 가시성, wizard state, 전역 오버레이 상태
-
-```tsx
-export class UiState {
-  language = "en_US";
-  pendingRequestCount = 0;
-
-  // .struct makes sure observer won't be signaled unless the
-  // dimensions object changed in a deepEqual manner.
-  windowDimensions = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
-
-  constructor() {
-    makeAutoObservable(this, { windowDimensions: observable.struct });
-    window.onresize = () => {
-      this.windowDimensions = getWindowDimensions();
+  changeAuthor(name: string) {
+    this.author = {
+      name: name,
     };
   }
 
-  get appIsInSync() {
-    return this.pendingRequestCount === 0;
+  changeAuthorName(name: string) {
+    this.author.name = name;
   }
 }
 ```
 
-### 5. Combining multiple stores
-
-- 여러 저장소를 합치는 방법이다. 이는 RootStore를 따로 꺼내서 이용하면 된다.
+- 이게 무슨 소리냐면, 위와 같은 구조를 가진 스토어를 사용하는 observer container의 모습을 보자.
 
 ```tsx
-class RootStore {
-  UserStore: UserStore;
-  TodosStore: TodosStore;
-
-  constructor() {
-    this.UserStore = new UserStore(this);
-    this.TodosStore = new TodosStore(this);
-  }
+function MessageContainer({ store }: Props) {
+  return <MessageComponent title={store.title} author={store.author} />;
 }
 ```
 
-```tsx
-class UserStore {
-  root: RootStore;
-  users: User[];
-  user: User | null;
-
-  constructor(root: RootStore) {
-    makeAutoObservable(this);
-    this.root = root;
-    this.users = [];
-    this.user = null;
-  }
-
-  // ...
-}
-```
-
-- 코드를 보면 store 내부에도 rootstore를 저장해놨는데, 이 짓을 왜 할까 생각을 해봤다. 다음과 같이 설정하면 스토어들 간에도 데이터 교류가 가능해져서 유용할 듯 하다.
-
-# 2. not lite! provider and inject in mobx-react
-
-[mobxjs/mobx-react](https://github.com/mobxjs/mobx-react/blob/master/README.md)
-
-### 1. Basic
-
-- 이렇게 MobX를 경험해보았다. store를 사용하고자 하는 곳에서 store 클래스 생성, observer component로의 전달이 기본 프로세스이다. 하지만 이렇게 되면 redux의 provider가 그리워질 것이다. 최상위에 provider에 store만 뚝! 해놓으면 사용하고자 하는 컴포넌트에서 connect만 하면 됐으니.. 하지만 mobx-react-lite가 아닌, mobx-react 라이브러리에서 이렇게 동작하도록 provider와 inject를 제공해주고 있다.
-
-> **A Decorator is a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter. Decorators use the form @expression, where expression must evaluate to a function that will be called at runtime with information about the decorated declaration.**
+- 그리고 하위에서 View를 보여주고 있는 Component를 봐보자.
 
 ```tsx
-type ButtonProps = {
-  color?: string;
-};
-
-@inject("color")
-@observer
-class Button extends React.Component<React.PropsWithChildren<ButtonProps>> {
-  render() {
-    return (
-      <button style={{ background: this.props.color }}>
-        {this.props.children}
-      </button>
-    );
-  }
-}
-
-type MessageProps = {
-  text: string;
-};
-function Message(props: MessageProps) {
+function MessageComponent({
+  title,
+  author,
+  changeAuthor,
+  changeAuthorName,
+}: Props) {
   return (
-    <div>
-      {props.text} <Button>Delete</Button>
-    </div>
+    <>
+      <h1>{title}</h1>
+      <h2>Author: {author.name}</h2>
+      <input
+        type="text"
+        value={author.name}
+        onChange={(e) => changeAuthor(e.target.value)}
+        placeholder="Change Author"
+      />
+      <input
+        type="text"
+        value={author.name}
+        onChange={(e) => changeAuthorName(e.target.value)}
+        placeholder="Change Author Name"
+      />
+    </>
   );
 }
-
-type RootProps = {
-  messages: string[];
-};
-
-function InjectContainer(props: RootProps) {
-  const children = props.messages.map((message) => <Message text={message} />);
-  return (
-    <Provider color="red">
-      <div>{children}</div>
-    </Provider>
-  );
-}
-
-export default InjectContainer;
 ```
 
-- 다음과 같이 최상위에 Provider Context를 씌어 놓으면 하위 컴포넌트에서 inject를 사용하여 Provider에 지정한 스토어를 가지고 올 수 있다.
-- 위에서 decorator 문법이 쓰였는데, decorator 문법은 클래스와 그 프로퍼티들과 메서드를 위한 문법이기 때문에 함수형 컴포넌트에서는 사용할 수 없다. 그래서 함수형 문법으로 사용하고 싶다면 아래와 같이 선언하면 된다.
+- input을 두 개를 준비하고 store에 2개의 액션을 사용하고 있다. 하나는 지금 observer container에서 읽고 있는 author 자체의 값을 변경하는 changeAuthor이고, 하나는 하위 컴포넌트에서 읽고 있는 [author.name](http://author.name) 의 값을 변경하는 changeAuthorName 이벤트를 달고 있다.
+- 아래의 인풋은 아무리 값을 고쳐도 재 렌더링 하지 않는다. 액션은 발생하지만 변화한 것에 대해서 재 렌더링 되지 않는다. 그 이유는 observer component에서 읽고 있는 값은 store.author다. store.author.name이 아니다. 프로퍼티를 추적한다는 의미가 이것이다. 그 안에 값이 변경되는 것은 감시하지 않는다. 감시하고 있는 프로퍼티 자체의 값이 변경해야 재 렌더링한다. 그것을 추적한다는 의미이다.
+- 그래서 위 코드는 observer component에서 store.author.name을 추적하면 아래 input도 동작을 한다.
+
+> Note that the values themselves are not observable!
 
 ```tsx
-const Button = inject("color")(
-  observer((props: React.PropsWithChildren<ButtonProps>) => {
-    return (
-      <button style={{ background: props.color }}>{props.children}</button>
-    );
-  })
-);
+<MessageComponent
+  title={store.title}
+  authorName={store.author.name}
+  changeAuthor={store.changeAuthor}
+  changeAuthorName={store.changeAuthorName}
+/>
 ```
 
-### 2. Customizing inject
+## 4. Understading reactivity - MobX Reactivity
 
-- store name으로 가지고 오는 것 대신에 직접 mapperFunction을 보내서 매핑할 수도 있다.
+### 0. TypeScript
 
 ```tsx
-mapperFunction: (allStores, props, context) => additionalProps;
+"useDefineForClassFields": true
 ```
+
+### 1. Correct: dereference inside the tracked function
 
 ```tsx
-// Provider
-function App() {
-  const inputStore = new InputStore({
-    name: "",
-    nickname: "",
-  });
-
-  return (
-    <Provider inputStore={inputStore}>
-      <InputContainer />
-    </Provider>
-  );
-}
-
-// Inject Components
-
-inject((store: { inputStore: InputStore }) => ({
-  store: store.inputStore,
-}))(observer(InputContainer));
+autorun(() => {
+  console.log(message.title); // Foo!
+});
+message.updateTitle("Bar");
 ```
 
-- 이 때 중요한 것은 inject가 반환하는 함수로 observer component를 넣어줘야 스토어의 반응에 대응한다.
+- 위의 내용은 가장 일반적인 내용으로 .title이 autorun에 의해 역참조 되어서 변화된 후 이를 감지한다.
+
+> trace
+
+- mobx에서 제공하는 함수 중 trace 라는 함수를 우리는 사용할 수 있다. 이는 autorun의 상황을 보여준다.
+
+```tsx
+const disposer = autorun(() => {
+  console.log(message.title);
+  trace();
+});
+// Outputs:
+// [mobx.trace] 'Autorun@2' tracing enabled
+
+message.updateTitle("Hello");
+// Outputs:
+// [mobx.trace] 'Autorun@2' is invalidated due to a change in: 'Message@1.title'
+```
+
+> getDependencyTree
+
+- MobX에서 제공해주는 getDependency함수는 내부 종속성 트리를 보여준다.
+
+```tsx
+// Prints the dependency tree of the reaction coupled to the disposer.
+console.log(getDependencyTree(disposer));
+// Outputs:
+// { name: 'Autorun@2', dependencies: [ { name: 'Message@1.title' } ] }
+```
+
+### 2. Incorrect: Changing a non-observable reference
+
+```tsx
+autorun(() => {
+  console.log(message.title);
+});
+message = new Message("Bar", { name: "Martijn" }, ["Felicia", "Marcus"]);
+```
+
+- 다음과 같이 이미 참조 중이었던 observable이 있을 경우, 이를 감지하는 autorun을 선언해줬는데, 후에 이 observable을 바꾸면 autorun은 동작하지 않는다.
+
+### 3. Incorrect: dereference outside of a tracked function
+
+```tsx
+let title = message.title;
+autorun(() => {
+  console.log(title);
+});
+message.updateMessage("Bar");
+```
+
+- 다음과 같이 observable value를 다른 변수에 할당하면 역추적할 수가 없다. 역추적의 주체는 observable object 이기 때문이다.
+
+### 4. Correct: dereference inside the tracked function
+
+```tsx
+autorun(() => {
+  console.log(message.author.name);
+});
+
+runInAction(() => {
+  message.author.name = "Sara";
+});
+runInAction(() => {
+  message.author = { name: "Joe" };
+});
+```
+
+- runInAction은 외부에서도 observable value에 변화를 일으키고, autorun까지 실행될 수 있도록 해준다.
+
+### 5. Incorrect: store a local reference to an observable object without tracking
+
+```tsx
+const author = message.author;
+autorun(() => {
+  console.log(author.name);
+});
+
+runInAction(() => {
+  message.author.name = "Sara";
+});
+runInAction(() => {
+  message.author = { name: "Joe" };
+});
+```
+
+- 다음과 같이 지역변수에 할당한 경우, .name 프로퍼티는 역추적을 하지만 message.author는 추적하지 않는다. message.author에 새로운 값이 들어오면서 해당 autorun은 의미가 없어진다.
+
+### 6. Common pitfall: console.log
+
+```tsx
+autorun(() => {
+  console.log(message);
+});
+
+// Won't trigger a re-run.
+message.updateTitle("Hello world");
+```
+
+- 이는 추적하지 않는다. 그 이유는 observable object 안에 observable value들을 추적하는 거기 때문이다. 그 자체를 보고 있는 autorun은 동작하지 않는다.
+
+### 7. Correct: access array properties in tracked function
+
+```tsx
+autorun(() => {
+  console.log(message.likes.length);
+});
+message.likes.push("Jennifer");
+```
+
+- observable value에서의 배열의 경우, 프로퍼티를 조회하고 추적할 수 있다.
+
+### 8. Incorrect: access out-of-bounds indices in tracked function
+
+```tsx
+autorun(() => {
+  console.log(message.likes[0]);
+});
+message.likes.push("Jennifer");
+```
+
+- 위의 autorun은 정상적으로 추적한다. 하지만 오직 배열의 길이 보다 작은 index에 대해서만 동작한다.
+
+### 9. Correct: access array functions in tracked function
+
+```tsx
+autorun(() => {
+  console.log(message.likes.join(", "));
+});
+message.likes.push("Jennifer");
+```
+
+- 배열의 특정 함수들에도 접근할 수 있다.
+
+### 10. Incorrect: "use" an observable but without accessing any of its properties
+
+```tsx
+autorun(() => {
+  message.likes;
+});
+message.likes.push("Jennifer");
+```
+
+- 사용은 하지만 접근하지 않는 프로퍼티에 대해서는 동작하지 않는다.
+
+### 11. Correct: using not yet existing map entries
+
+```tsx
+const twitterUrls = observable.map({
+  Joe: "twitter.com/joey",
+});
+
+autorun(() => {
+  console.log(twitterUrls.get("Sara"));
+});
+
+runInAction(() => {
+  twitterUrls.set("Sara", "twitter.com/horsejs");
+});
+```
+
+- 아직 존재하지 않는 맵 엔트리들도 추적할 수 있다.
+
+### 12. MobX does not track asynchronously accessed data
+
+```tsx
+autorun(() => {
+  setTimeout(() => console.log(message.likes.join(", ")), 10);
+});
+
+runInAction(() => {
+  message.likes.push("Jennifer");
+});
+```
+
+- autorun에 비동기함수가 들어가 있는 경우에는 동작하지 않는다. 또한 위는 autorun의 주체가 아닌 setTimeout안에서의 주체이기 때문에 동작하지 않는다.
+
+### 13. using non-observable object properties
+
+```tsx
+autorun(() => {
+  console.log(message.author.age);
+});
+
+runInAction(() => {
+  message.author.age = 10;
+});
+```
+
+- 새로운 property를 추가하는 경우에도 이는 동작한다.
+
+### 14. [Without Proxy support] Correct: using MobX utilities to read / write to objects
+
+```tsx
+import { get, set, observable } from "mobx";
+
+const twitterUrls = observable.object({
+  Joe: "twitter.com/joey",
+});
+
+autorun(() => {
+  console.log(get(twitterUrls, "Sara")); // `get` can track not yet existing properties.
+});
+
+runInAction(() => {
+  set(twitterUrls, { Sara: "twitter.com/horsejs" });
+});
+```
+
+- get 혹은 set을 활용해서 MobX를 제어할 수도 있다.
