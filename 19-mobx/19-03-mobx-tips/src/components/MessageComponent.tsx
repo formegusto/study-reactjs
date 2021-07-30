@@ -1,4 +1,4 @@
-import { Author } from "../store/message";
+// import { Author } from "../store/message";
 
 type Props = {
   title: string;
