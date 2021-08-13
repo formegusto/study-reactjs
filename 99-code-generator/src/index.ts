@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-
-console.log("test");
 import { program } from "commander";
 import fs from "fs";
 import path from "path";
