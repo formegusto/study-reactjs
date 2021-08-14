@@ -12,17 +12,20 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 // order they would appear in a <Switch>.
 const routes = [
   {
+    name: "Home",
     path: "/",
     exact: true,
     sidebar: () => <div>home!</div>,
     main: () => <h2>Home</h2>,
   },
   {
+    name: "Bubblegum",
     path: "/bubblegum",
     sidebar: () => <div>bubblegum!</div>,
     main: () => <h2>Bubblegum</h2>,
   },
   {
+    name: "shoelaces",
     path: "/shoelaces",
     sidebar: () => <div>shoelaces!</div>,
     main: () => <h2>Shoelaces</h2>,
@@ -41,15 +44,11 @@ export default function SidebarExample() {
           }}
         >
           <ul style={{ listStyleType: "none", padding: 0 }}>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/bubblegum">Bubblegum</Link>
-            </li>
-            <li>
-              <Link to="/shoelaces">Shoelaces</Link>
-            </li>
+            {routes.map((route, index) => (
+              <li>
+                <Link to={route.path}>{route.name}</Link>
+              </li>
+            ))}
           </ul>
 
           <Switch>
