@@ -1,8 +1,8 @@
 import React from "react";
-import RecursiveExample from "./components/Recursive";
+import SidebarExample from "./components/Sidebar";
 
 function App() {
-  return <RecursiveExample />;
+  return <SidebarExample />;
 }
 
 export default App;
