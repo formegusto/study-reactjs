@@ -1,9 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SwitchExample from "./transition-example/SwitchExample";
+import GalleryExample from "./motion-example/GalleryExample";
 
 function App() {
-  return <SwitchExample />;
+  return <GalleryExample />;
 }
 
 export default App;
