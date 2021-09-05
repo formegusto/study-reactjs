@@ -5,7 +5,7 @@ export type Photo = {
 export default [
   {
     photo:
-      "https://images.unsplash.com/photo-1474313438662-85ce389c174a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=50_",
+      "https://images.unsplash.com/photo-1474313438662-85ce389c174a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=50",
   },
   {
     photo:
