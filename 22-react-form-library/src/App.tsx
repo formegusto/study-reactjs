@@ -1,7 +1,7 @@
-import StudyFormik from "./StudyFormik";
+import StudyRHF from "./StudyRHF";
 
 function App() {
-  return <StudyFormik />;
+  return <StudyRHF />;
 }
 
 export default App;
