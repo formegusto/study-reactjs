@@ -1,9 +1,8 @@
-import SignupForm from "./examples/SignupForm";
+import React from "react";
+import ReuseExample from "./examples/ReuseExample";
 
 function StudyFormik() {
-  //   return <TheGist />;
-  // return <ReducingBoilerplate />;
-  return <SignupForm />;
+  return <ReuseExample />;
 }
 
 export default StudyFormik;
