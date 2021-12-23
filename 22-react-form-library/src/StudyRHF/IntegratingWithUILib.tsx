@@ -1,16 +1,16 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Input from "@material-ui/core/Input";
 import Select from "react-select";
 
-function IntegratingWithUILib() {
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      firstName: "",
-      select: {},
-    },
-  });
+interface IFormValues {
+  firstName: string;
+  iceCreamType: { label: string; value: string };
+}
 
-  const onSubmit = (data: any) => {
+function IntegratingWithUILib() {
+  const { control, handleSubmit } = useForm<IFormValues>();
+
+  const onSubmit: SubmitHandler<IFormValues> = (data: any) => {
     alert(JSON.stringify(data, null, "\t"));
   };
 
@@ -22,7 +22,7 @@ function IntegratingWithUILib() {
         render={({ field }) => <Input {...field} />}
       />
       <Controller
-        name="select"
+        name="iceCreamType"
         control={control}
         render={({ field }) => (
           <Select

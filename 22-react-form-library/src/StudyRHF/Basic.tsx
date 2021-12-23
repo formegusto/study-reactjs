@@ -1,4 +1,9 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
 
 function Basic() {
   const {
@@ -6,8 +11,8 @@ function Basic() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   console.log(watch("example")); // watch input value by passing the name of it
 

@@ -1,8 +1,19 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+enum GenderEnum {
+  female = "female",
+  male = "male",
+  other = "other",
+}
+
+interface IFormInput {
+  firstName: string;
+  gender: GenderEnum;
+}
 
 function RegisterField() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit } = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
     alert(JSON.stringify(data, null, "\t"));
   };
 

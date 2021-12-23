@@ -1,14 +1,15 @@
 import React from "react";
-import {
-  useForm,
-  UseFormRegister,
-  UseFormRegisterReturn,
-} from "react-hook-form";
+import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
+
+type IFormValues = {
+  "First Name": string;
+  Age: number;
+};
 
 // Example 1. The Following Component is an example of your existing Input Component
 type ExamOneProps = {
-  label: string;
-  register: UseFormRegister<any>;
+  label: Path<IFormValues>;
+  register: UseFormRegister<IFormValues>;
   required?: boolean;
 };
 function Input({ label, register, required }: ExamOneProps) {
@@ -22,8 +23,10 @@ function Input({ label, register, required }: ExamOneProps) {
 
 // Exampe 2. you can use React.forwardRef to pass the ref too
 type ConfigTwoProps = { label: string };
-interface ExamTwoProps extends UseFormRegisterReturn, ConfigTwoProps {}
-const Select = React.forwardRef(
+interface ExamTwoProps
+  extends ReturnType<UseFormRegister<IFormValues>>,
+    ConfigTwoProps {}
+const Select = React.forwardRef<HTMLSelectElement, ExamTwoProps>(
   ({ onChange, onBlur, name, label }: ExamTwoProps, ref: any) => (
     <>
       <label>{label}</label>
@@ -36,9 +39,9 @@ const Select = React.forwardRef(
 );
 
 function IntegratingForm() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<IFormValues>();
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<IFormValues> = (data: any) => {
     alert(JSON.stringify(data, null, "\t"));
   };
 

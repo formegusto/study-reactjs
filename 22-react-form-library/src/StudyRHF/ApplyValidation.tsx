@@ -1,12 +1,18 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface IFormInput {
+  firstName: string;
+  lastName: string;
+  age: number;
+}
 
 function ApplyValidation() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => {
+  } = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
     alert(JSON.stringify(data, null, "\t"));
   };
 
